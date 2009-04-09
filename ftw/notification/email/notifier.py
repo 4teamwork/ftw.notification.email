@@ -1,38 +1,53 @@
-from izug.notification.base.notifier import IZugBaseNotifier
+from ftw.notification.base.notifier import BaseNotifier
 from zope.sendmail.delivery import DirectMailDelivery
 from zope.sendmail.mailer import SMTPMailer
 from zope.sendmail.interfaces import IMailer
+from zope.app.component import hooks
 from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
+from ftw.sendmail.composer import HTMLComposer
 import logging
+from zope import component
+from zope.sendmail.interfaces import IMailer
+from ftw.notification.email.interfaces import IEMailRepresentation
 logger = logging.getLogger('izug.notification.email')
 
-class MailerStub(object):
+class MailNotifier(BaseNotifier):
+    def send_notification(self, to_list=[], cc_list=[], object_=None, message=u"", **kwargs):
+        #XXX. cc_list not implemented
+        site = hooks.getSite()
+        portal_membership = getToolByName(object_ or site, 'portal_membership')
 
-    implements(IMailer)
-    def __init__(self, *args, **kw):
-        self.sent_messages = []
-
-    def send(self, fromaddr, toaddrs, message):
-        self.sent_messages.append((fromaddr, toaddrs, message))
-
-
-class IZugMailNotifier(IZugBaseNotifier):
-    def send_notification(self, to_list=[], cc_list=[], object=None, message=u"", **kwargs):
-        logger.info("message sent to outer space...")
-        return 1
-        mailer = SMTPMailer(hostname=object.MailHost.smtp_host, 
-                            username=object.MailHost.smtp_userid, 
-                            password=object.MailHost.smtp_pass)
-                            
-        delivery = DirectMailDelivery(mailer)
-        fromaddr = "Info <info@4teamwork.ch>"
-        toaddrs = ('Victor Baumann <v.baumann@4teamwork.ch>',)
-        opt_headers = ('From: Victor Baumann <v.baumann@4teamwork.ch>\n'
-                       'To: Victor Baumann <v.baumann@4teamwork.ch>:;\n'
-                       'Message-Id: <20030519.1234@example.org>\n')
-        message =     ('Subject: example\n'
-                       '\n'
-                       '%s' % message)
-
-        msgid = delivery.send(fromaddr, toaddrs, opt_headers + message)
-        return str(self.__class__)
+        recipients = {}
+        for user_id in to_list:
+            member = portal_membership.getMemberById(user_id)
+            if member is None:
+                continue
+            fullname = member.getProperty('fullname', user_id)
+            if not len(fullname):
+                fullname = user_id
+            email =  member.getProperty('email', None)
+            if email is None:
+                continue
+            recipients[user_id] = (fullname, email)
+        
+        sender = None    
+        sender_id = kwargs.get('actor', '')
+        sender_data = portal_membership.getMemberById(sender_id)
+        if sender_data is not None:
+            sender_fullname = sender_data.getProperty('fullname', user_id)
+            if not len(fullname):
+                fullname = user_id
+            sender_email =  sender_data.getProperty('email', '')  
+            sender = (sender_fullname, sender_email)      
+        kwargs.update(dict(sender=sender))
+        
+        if object_ is not None:
+            try:
+                email = IEMailRepresentation(object_)(u'notification sent', recipients.values(), message, **kwargs)
+            except Exception, e:
+                email = None
+            if email is not None:
+                smtp = component.getUtility(IMailer, 'plone.smtp')
+                smtp.update_settings()
+                smtp.send(email['From'], email['To'], email.as_string())

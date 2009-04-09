@@ -1,4 +1,7 @@
-class IFormatItem(interface.Interface):
+from zope.interface import Interface, Attribute
+from ftw.notification.base.interfaces import INotifier
+
+class IFormatItem(Interface):
     """A view that formats an item for use in a notification.
 
     Given an item as retrieved from a collector, this view returns a
@@ -8,3 +11,12 @@ class IFormatItem(interface.Interface):
 
     def __call__():
         """Returns a unicode-string."""
+
+
+class IMailNotifier(INotifier):
+    """Interface for 
+    """
+
+class IEMailRepresentation(Interface):
+    """Interface for 
+    """

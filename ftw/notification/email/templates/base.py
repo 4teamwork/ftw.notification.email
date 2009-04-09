@@ -1,25 +1,21 @@
 from zope import component
 from zope import interface
+from Acquisition import aq_parent, aq_base, aq_inner
+from ftw.sendmail.composer import HTMLComposer
+from zope.app.pagetemplate import ViewPageTemplateFile
 
-class CMFDublinCoreHTMLFormatter(object):
-    """Render a brief representation of an IBaseContent for HTML.
-    """
-    interface.implements(ftw.notification.email.interfaces.IFormatItem)
-    component.adapts(Products.CMFCore.interfaces.IMinimalDublinCore,
-                     zope.publisher.interfaces.browser.IBrowserRequest)
-
-    template = """\
-    <div>
-      <h2><a href="%(url)s">%(title)s</a></h2>
-      <p>%(description)s</p>
-    </div>
+class BaseEmailRepresentation(object):
+    """returns a email representation of an IBaseContent for HTML.
     """
     
-    def __init__(self, item, request):
-        self.item = item
-        self.request = request
+    template = ViewPageTemplateFile('base.pt')
+    
+    def __init__(self, context):
+         self.context = aq_inner(context)
+         self.request = self.context.REQUEST
 
-    def __call__(self):
-        i = self.item
-        return self.template % dict(
-            url=i.absolute_url(), title=i.Title(), description=i.Description())
+    def __call__(self, subject, to_list, message, **kwargs):
+        self.comment = message.replace('\n', '<br />')
+        self.__dict__.update(kwargs)
+        composer = HTMLComposer(self.template(self), subject, to_list)
+        return composer.render()

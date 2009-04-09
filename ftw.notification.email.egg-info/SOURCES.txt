@@ -15,3 +15,5 @@ ftw/notification/email/__init__.py
 ftw/notification/email/interfaces.py
 ftw/notification/email/notifier.py
 ftw/notification/email/tests.py
+ftw/notification/email/events/__init__.py
+ftw/notification/email/events/handlers.py

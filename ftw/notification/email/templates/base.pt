@@ -1,0 +1,11 @@
+<tal:translate i18n:domain="ftw.notification.email">
+
+<p><tal:b tal:content="python:view.sender[0] " /> <tal:b i18n:translate="email_contification_text">has sent you a notification</tal:b></p>
+<strong i18n:translate="">comment</strong><br />
+<p tal:content="structure view/comment" />
+<hr />	
+<h2 tal:content="context/Title"></h2>
+<p tal:content="context/Description" />
+<p tal:content="context/absolute_url" />
+
+</tal:translate>

@@ -1,8 +1,28 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ftw.notification.email">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales"/>
+
+  <subscriber
+      for="ftw.notification.base.interfaces.INotificationEvent"
+      handler=".events.handlers.notification_sent"
+      />
+
+  <utility 
+      factory=".notifier.MailNotifier" 
+      provides="ftw.notification.base.interfaces.INotifier"
+      name="email-notifier"
+      />
+
+  <adapter
+      factory=".templates.base.BaseEmailRepresentation"
+      for="Products.Archetypes.interfaces._base.IBaseObject"
+      provides=".interfaces.IEMailRepresentation"
+      />
+
 
 </configure>
