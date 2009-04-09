@@ -21,3 +21,6 @@ msgstr "hat einen Hinweis an Sie versendet:"
 msgid "comment"
 msgstr "Kommentar"
 
+msgid "label_notification_sent"
+msgstr "Benachrichtigung"
+

@@ -10,6 +10,7 @@ import logging
 from zope import component
 from zope.sendmail.interfaces import IMailer
 from ftw.notification.email.interfaces import IEMailRepresentation
+from ftw.notification.email import emailNotificationMessageFactory as _
 logger = logging.getLogger('izug.notification.email')
 
 class MailNotifier(BaseNotifier):
@@ -41,13 +42,14 @@ class MailNotifier(BaseNotifier):
             sender_email =  sender_data.getProperty('email', '')  
             sender = (sender_fullname, sender_email)      
         kwargs.update(dict(sender=sender))
-        
         if object_ is not None:
             try:
-                email = IEMailRepresentation(object_)(u'notification sent', recipients.values(), message, **kwargs)
+                #XXX translate...
+                email = IEMailRepresentation(object_)('Benachrichtigung', recipients.values(), message, **kwargs)
             except Exception, e:
                 email = None
             if email is not None:
                 smtp = component.getUtility(IMailer, 'plone.smtp')
                 smtp.update_settings()
+                import pdb;pdb.set_trace()
                 smtp.send(email['From'], email['To'], email.as_string())
