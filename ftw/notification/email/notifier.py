@@ -51,5 +51,4 @@ class MailNotifier(BaseNotifier):
             if email is not None:
                 smtp = component.getUtility(IMailer, 'plone.smtp')
                 smtp.update_settings()
-                import pdb;pdb.set_trace()
                 smtp.send(email['From'], email['To'], email.as_string())
