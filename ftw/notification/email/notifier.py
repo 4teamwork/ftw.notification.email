@@ -45,7 +45,7 @@ class MailNotifier(BaseNotifier):
         if object_ is not None:
             try:
                 #XXX translate...
-                email = IEMailRepresentation(object_)('Benachrichtigung', recipients.values(), message, **kwargs)
+                email = IEMailRepresentation(object_)('[iZug] Benachrichtigung', recipients.values(), message, **kwargs)
             except Exception, e:
                 email = None
             if email is not None:
