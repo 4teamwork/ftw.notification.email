@@ -67,5 +67,5 @@ class BaseEmailRepresentation(object):
     def __call__(self, subject, to_list, message, **kwargs):
         self.comment = message.replace('\n', '<br />')
         self.__dict__.update(kwargs)
-        composer = HTMLComposer(self.template(self), subject, to_list)
+        composer = HTMLComposer(self.template(self), subject, to_list, replyto_address=kwargs['sender'])
         return composer.render(filter_tags=False, override_vars=dict(stylesheet=self.stylesheet))
