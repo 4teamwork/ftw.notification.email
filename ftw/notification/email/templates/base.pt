@@ -8,4 +8,8 @@
 <p tal:content="context/Description" />
 <p ><a tal:attributes="href context/absolute_url" tal:content="context/absolute_url" /></p>
 
+Dieses Mail wurde automatisch generiert. Um eine Antwort an die AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in der Fusszeile. 
+
+<p><tal:b tal:content="python:view.sender[0] " /> - <tal:b tal:content="python:view.sender[1] " /></p>
+
 </tal:translate>
