@@ -12,12 +12,12 @@ class BaseEmailRepresentation(object):
     #XXX: replace with CSSVIew
     stylesheet = """
     body {
-        font-family:  "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+        font-family: Arial !important;
         font-size: 10pt !important;
     }
     h1, h2, h3, h4, h5, h6 {
         border: none;
-        font-family:  "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+        font-family:  Arial !important;
     }
     div, p, ul, dl, ol {
         width: auto;
@@ -34,7 +34,6 @@ class BaseEmailRepresentation(object):
     pre {
         border: 1pt dotted black;
         white-space: pre;
-        font-size: 8pt;
         overflow: auto;
         padding: 1em 0;
     }
