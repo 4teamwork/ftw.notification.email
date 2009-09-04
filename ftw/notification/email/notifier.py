@@ -1,3 +1,4 @@
+from StringIO import StringIO
 from ftw.notification.base.notifier import BaseNotifier
 from zope.sendmail.delivery import DirectMailDelivery
 from zope.sendmail.mailer import SMTPMailer
@@ -63,7 +64,10 @@ class MailNotifier(BaseNotifier):
                 raise
             except Exception, error:
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-                logger.error('Error while sending notification')
-                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, file=sys.stdout)
+                exs = StringIO()
+                exs.write('Error while sending notification\n')
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, file=exs)
+                exs.seek(0)
+                logger.error(exs.read())
                 IStatusMessage(object_.request).addStatusMessage(_('statusmessage_notification_not_sent'), type='error')
                 
