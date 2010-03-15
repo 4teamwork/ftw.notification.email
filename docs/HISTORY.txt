@@ -5,11 +5,17 @@ Changelog
 0.4
 ---
 
+* Issue #7 [iZug] Text in Hinweismail verallgemeineren
+  https://extranet.4teamwork.ch/intranet/10-interne-projekte/4teamwork-egov/tracker-4teamwork-egov/7/
+  Die Überschrift der Benachrichtigung ist jetzt nicht mehr hart codiert, sondern kann über
+  das Property `ftw_notification_properties/notification_email_subject` überschrieben werden.
+  [15.03.2010, jbaumann]
+
 
 0.3
 ---
 
-* [04.09.2009] Issue #644: Benachrichtigung - kein Empfänger ausgewählt [vba]
+* [04.09.2009] Issue #644: Benachrichtigung - kein Empfänger ausgewählt [vba]
 
 
 0.2

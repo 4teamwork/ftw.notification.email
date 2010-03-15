@@ -24,6 +24,7 @@ class MailNotifier(BaseNotifier):
         #XXX. cc_list not implemented
         site = hooks.getSite()
         portal_membership = getToolByName(object_ or site, 'portal_membership')
+        portal_properties = getToolByName(object_ or site, 'portal_properties')
 
         recipients = {}
         
@@ -54,8 +55,16 @@ class MailNotifier(BaseNotifier):
         kwargs.update(dict(sender=sender))
         if object_ is not None:
             try:
-                #XXX translate...
-                email = IEMailRepresentation(object_)('[iZug] Benachrichtigung', recipients.values(), message, **kwargs)
+                default_subject = '[%s] Notification' % site.Title()
+                subject = None
+                try:
+                    sheet = portal_properties.ftw_notification_properties
+                except AttributeError:
+                    subject = default_subject
+                else:
+                    subject = sheet.getProperty('notification_email_subject', default_subject)
+                email = IEMailRepresentation(object_)(subject, recipients.values(),
+                                                      message, **kwargs)
                 smtp = component.getUtility(IMailer, 'plone.smtp')
                 smtp.update_settings()
                 smtp.send(email['From'], email['To'], email.as_string())
