@@ -26,6 +26,7 @@ setup(name='ftw.notification.email',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'stoneagehtml'
           # -*- Extra requirements: -*-
       ],
       entry_points="""

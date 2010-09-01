@@ -20,7 +20,7 @@
 
   <adapter
       factory=".templates.base.BaseEmailRepresentation"
-      for="Products.Archetypes.interfaces._base.IBaseObject"
+      for="Products.CMFCore.interfaces._content.IContentish"
       provides=".interfaces.IEMailRepresentation"
       />
 

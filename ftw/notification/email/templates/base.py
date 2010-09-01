@@ -1,7 +1,7 @@
 from zope import component
 from zope import interface
 from Acquisition import aq_parent, aq_base, aq_inner
-from ftw.sendmail.composer import HTMLComposer
+from ftw.notification.email.composer import HTMLComposer
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 class BaseEmailRepresentation(object):
