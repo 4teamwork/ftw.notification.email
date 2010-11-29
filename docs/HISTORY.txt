@@ -4,7 +4,11 @@ Changelog
 
 0.6
 ---
+* Implement CC notification.
+  [25.11.2010, mathias.leimgruber]
 
+* Translations, remove izug message domains.
+  [25.11.2010, mathias.leimgruber]
 
 0.5
 ---

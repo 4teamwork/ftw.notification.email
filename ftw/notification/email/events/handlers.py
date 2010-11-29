@@ -31,6 +31,11 @@ def notification_sent(event):
         time = event.time
 
     to_list = obj.REQUEST.get('to_list', [])
+    cc_list = obj.REQUEST.get('cc_list', [])
     kwargs = dict(action=action, actor=actor, time=time)
-    notifier.send_notification(to_list=to_list, message=comment,
-                               object_= obj, **kwargs)
+    notifier.send_notification(
+        to_list=to_list,
+        cc_list=cc_list,
+        message=comment,
+        object_= obj,
+        **kwargs)

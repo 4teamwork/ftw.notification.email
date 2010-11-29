@@ -10,21 +10,22 @@ from zope.publisher.interfaces import Retry
 from ZODB.POSException import ConflictError
 import traceback
 import sys
-logger = logging.getLogger('izug.notification.email')
+
+logger = logging.getLogger('ftw.notification.email')
 
 
 class MailNotifier(BaseNotifier):
 
-    def send_notification(self, to_list=[], cc_list=[], object_=None,
-                          message=u"", **kwargs):
-        #XXX. cc_list not implemented
+
+    def create_recipients(self, user_list):
+        """Creates a unique list of recipients"""
+        
         site = hooks.getSite()
-        portal_membership = getToolByName(object_ or site, 'portal_membership')
-        portal_properties = getToolByName(object_ or site, 'portal_properties')
+        portal_membership = getToolByName(site, 'portal_membership')
 
         recipients = {}
 
-        for user_id in to_list:
+        for user_id in user_list:
             member = portal_membership.getMemberById(user_id)
             if member is None:
                 continue
@@ -35,6 +36,17 @@ class MailNotifier(BaseNotifier):
             if email is None:
                 continue
             recipients[user_id] = (fullname, email)
+        return recipients
+
+    def send_notification(self, to_list=[], cc_list=[], object_=None,
+                          message=u"", **kwargs):
+        site = hooks.getSite()
+        portal_membership = getToolByName(object_ or site, 'portal_membership')
+        portal_properties = getToolByName(object_ or site, 'portal_properties')
+
+        recipients = self.create_recipients(to_list)
+        cc_recipients = self.create_recipients(cc_list)
+
 
         if not recipients:
             return
@@ -62,9 +74,14 @@ class MailNotifier(BaseNotifier):
                                                 default_subject)
                 email = IEMailRepresentation(object_)(subject,
                                                       recipients.values(),
+                                                      cc_recipients.values(),
                                                       message, **kwargs)
                 mailhost = getToolByName(object_, "MailHost")
-                mailhost.send(email.as_string(), email['To'], email['From'], subject)
+                
+                # XXX: Unfortunality we have to implement the carbon copy
+                # festure by ourself. 
+                to_addr = '%s, %s' % (email['To'], email['CC'])
+                mailhost.send(email.as_string(), to_addr, email['From'], subject)
                 IStatusMessage(object_.REQUEST).addStatusMessage(
                         _('statusmessage_notification_sent'), type='info')
             except (ConflictError, Retry):
@@ -73,7 +90,7 @@ class MailNotifier(BaseNotifier):
                 exceptionType, exceptionValue, exceptionTraceback = \
                                                             sys.exc_info()
                 exs = StringIO()
-                import pdb; pdb.set_trace( )
+                print error
                 exs.write('Error while sending notification\n')
                 traceback.print_exception(exceptionType, exceptionValue,
                                           exceptionTraceback, file=exs)
