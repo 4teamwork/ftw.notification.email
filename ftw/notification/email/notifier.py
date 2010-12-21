@@ -1,15 +1,19 @@
-from StringIO import StringIO
+from ftw.notification.base import notification_base_factory as _nb
 from ftw.notification.base.notifier import BaseNotifier
-from zope.app.component import hooks
-from Products.CMFCore.utils import getToolByName
-import logging
+from ftw.notification.email import emailNotificationMessageFactory as _
 from ftw.notification.email.interfaces import IEMailRepresentation
-from ftw.notification.base import notification_base_factory as _
+from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
-from zope.publisher.interfaces import Retry
+from StringIO import StringIO
 from ZODB.POSException import ConflictError
-import traceback
+from zope.app.component import hooks
+from zope.i18n import translate
+from zope.publisher.interfaces import Retry
+import logging
 import sys
+import traceback
+
+
 
 logger = logging.getLogger('ftw.notification.email')
 
@@ -63,7 +67,18 @@ class MailNotifier(BaseNotifier):
         kwargs.update(dict(sender=sender))
         if object_ is not None:
             try:
-                default_subject = '[%s] Notification' % site.Title()
+                # / -- i18ndude hint -
+                if 0:
+                    _(
+                        u'notification_subject',
+                        mapping={'site_title':site.Title().decode('utf-8')})
+                default_subject = translate(
+                    u'notification_subject',
+                    domain='ftw.notification.email',
+                    context=object_.REQUEST,
+                    default=u'[${site_title}] Notification',
+                    mapping={'site_title':site.Title().decode('utf-8')})
+                    
                 subject = None
                 try:
                     sheet = portal_properties.ftw_notification_properties
@@ -79,11 +94,11 @@ class MailNotifier(BaseNotifier):
                 mailhost = getToolByName(object_, "MailHost")
                 
                 # XXX: Unfortunality we have to implement the carbon copy
-                # festure by ourself. 
+                # feature by ourself. 
                 to_addr = '%s, %s' % (email['To'], email['CC'])
                 mailhost.send(email.as_string(), to_addr, email['From'], subject)
                 IStatusMessage(object_.REQUEST).addStatusMessage(
-                        _('statusmessage_notification_sent'), type='info')
+                        _nb('statusmessage_notification_sent'), type='info')
             except (ConflictError, Retry):
                 raise
             except Exception, error:
@@ -97,4 +112,4 @@ class MailNotifier(BaseNotifier):
                 exs.seek(0)
                 logger.error(exs.read())
                 IStatusMessage(object_.REQUEST).addStatusMessage(
-                    _('statusmessage_notification_not_sent'), type='error')
+                    _nb('statusmessage_notification_not_sent'), type='error')

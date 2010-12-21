@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2009-02-25 13:09+0000\n"
+"POT-Creation-Date: 2010-12-21 14:53+0000\n"
 "PO-Revision-Date: 2009-02-25 14:39+0100\n"
 "Last-Translator: Victor Baumann <v.baumann@4teamwork.ch>\n"
 "Language-Team: 4teamwork <info@4teamwork.ch>\n"
@@ -9,18 +9,30 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ftw.notification.email\n"
 "X-Poedit-Language: German\n"
 
-msgid "email_contification_text"
-msgstr "hat einen Hinweis an Sie versendet:"
+#: ./ftw/notification/email/composer.py:92
+msgid "HTML E-Mail"
+msgstr ""
 
+#: ./ftw/notification/email/templates/base.pt:4
 msgid "comment"
 msgstr "Kommentar"
 
-msgid "label_notification_sent"
-msgstr "Benachrichtigung"
+#. Default: "has sent you a notification"
+#: ./ftw/notification/email/templates/base.pt:3
+msgid "email_contification_text"
+msgstr "hat einen Hinweis an Sie versendet:"
+
+#. Default: "Send Notification"
+#: ./ftw/notification/email/events/handlers.py:17
+msgid "label_send_notification"
+msgstr ""
+
+#: ./ftw/notification/email/notifier.py:68
+msgid "notification_subject"
+msgstr "[${site_title}] Benachrichtigung"
+
 
