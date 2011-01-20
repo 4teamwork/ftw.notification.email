@@ -1,15 +1,20 @@
-from zope.component import getMultiAdapter
-
 from DateTime import DateTime
-from zope.component import queryUtility
-from ftw.notification.base.interfaces import INotifier
+from ftw.journal.events.events import JournalEntryEvent
 from ftw.notification.base import notification_base_factory as _
+from ftw.notification.base.interfaces import INotifier
+from zope.component import getMultiAdapter
+from zope.component import queryUtility
+from zope.event import notify
+from zope.i18n import translate
+
 
 
 def notification_sent(event):
     obj = event.obj
     comment = event.comment
     notifier = queryUtility(INotifier, name='email-notifier')
+
+
     if notifier is None:
         return
 
@@ -32,6 +37,18 @@ def notification_sent(event):
 
     to_list = obj.REQUEST.get('to_list', [])
     cc_list = obj.REQUEST.get('cc_list', [])
+
+    journal_comment = translate(
+        msgid = u'journal_notification_text',
+        domain='ftw.notification.email',
+        context = obj.REQUEST,
+        mapping=dict(
+            to_list=len(to_list)>0 and ', '.join(to_list) + '\n' or '-', 
+            cc_list=len(cc_list)>0 and ', '.join(cc_list) + '\n' or '-', 
+            comment=comment))
+
+    notify(JournalEntryEvent(obj, journal_comment, action))
+
     kwargs = dict(action=action, actor=actor, time=time)
     notifier.send_notification(
         to_list=to_list,
@@ -39,3 +56,4 @@ def notification_sent(event):
         message=comment,
         object_= obj,
         **kwargs)
+    

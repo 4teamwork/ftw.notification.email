@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2010-12-21 14:53+0000\n"
+"POT-Creation-Date: 2011-01-20 15:22+0000\n"
 "PO-Revision-Date: 2009-02-25 14:39+0100\n"
 "Last-Translator: Victor Baumann <v.baumann@4teamwork.ch>\n"
 "Language-Team: 4teamwork <info@4teamwork.ch>\n"
@@ -26,12 +26,16 @@ msgstr "Kommentar"
 msgid "email_contification_text"
 msgstr "hat einen Hinweis an Sie versendet:"
 
+#: ./ftw/notification/email/events/handlers.py:40
+msgid "journal_notification_text"
+msgstr "Benachrichtigung gesendet an: AN:${to_list} CC: ${cc_list} ${comment}"
+
 #. Default: "Send Notification"
-#: ./ftw/notification/email/events/handlers.py:17
+#: ./ftw/notification/email/events/handlers.py:21
 msgid "label_send_notification"
 msgstr ""
 
-#: ./ftw/notification/email/notifier.py:68
+#: ./ftw/notification/email/notifier.py:72
 msgid "notification_subject"
 msgstr "[${site_title}] Benachrichtigung"
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-12-21 14:53+0000\n"
+"POT-Creation-Date: 2011-01-20 15:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,12 +30,16 @@ msgstr ""
 msgid "email_contification_text"
 msgstr ""
 
+#: ./ftw/notification/email/events/handlers.py:40
+msgid "journal_notification_text"
+msgstr ""
+
 #. Default: "Send Notification"
-#: ./ftw/notification/email/events/handlers.py:17
+#: ./ftw/notification/email/events/handlers.py:21
 msgid "label_send_notification"
 msgstr ""
 
-#: ./ftw/notification/email/notifier.py:68
+#: ./ftw/notification/email/notifier.py:72
 msgid "notification_subject"
 msgstr ""
 
