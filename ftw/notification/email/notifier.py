@@ -87,6 +87,10 @@ class MailNotifier(BaseNotifier):
                 else:
                     subject = sheet.getProperty('notification_email_subject',
                                                 default_subject)
+                                                
+                # subject should be utf-8
+                if isinstance(subject, unicode):
+                    subject = subject.encode('utf-8')
                 email = IEMailRepresentation(object_)(subject,
                                                       recipients.values(),
                                                       cc_recipients.values(),
