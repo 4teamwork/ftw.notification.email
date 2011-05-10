@@ -17,6 +17,9 @@ class IEMailComposer(Interface):
     """An email composer.
     """
 
+class ISubjectCreator(Interface):
+    """Interface for
+    """
 
 class IMailNotifier(INotifier):
     """Interface for
