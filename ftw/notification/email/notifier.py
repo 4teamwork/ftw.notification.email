@@ -1,7 +1,7 @@
 from ftw.notification.base import notification_base_factory as _nb
 from ftw.notification.base.notifier import BaseNotifier
 from ftw.notification.email import emailNotificationMessageFactory as _
-from ftw.notification.email.interfaces import IEMailRepresentation
+from ftw.notification.email.interfaces import IEMailRepresentation, ISubjectCreator
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from StringIO import StringIO
@@ -23,7 +23,7 @@ class MailNotifier(BaseNotifier):
 
     def create_recipients(self, user_list):
         """Creates a unique list of recipients"""
-        
+
         site = hooks.getSite()
         portal_membership = getToolByName(site, 'portal_membership')
 
@@ -78,16 +78,15 @@ class MailNotifier(BaseNotifier):
                     context=object_.REQUEST,
                     default=u'[${site_title}] Notification',
                     mapping={'site_title':site.Title().decode('utf-8')})
-                    
-                subject = None
-                try:
-                    sheet = portal_properties.ftw_notification_properties
-                except AttributeError:
-                    subject = default_subject
-                else:
-                    subject = sheet.getProperty('notification_email_subject',
-                                                default_subject)
-                                                
+                subject = ISubjectCreator(object_)(object_)
+                # try:
+                #     sheet = portal_properties.ftw_notification_properties
+                # except AttributeError:
+                #     subject = default_subject
+                # else:
+                #     subject = sheet.getProperty('notification_email_subject',
+                #                                 default_subject)
+
                 # subject should be utf-8
                 if isinstance(subject, unicode):
                     subject = subject.encode('utf-8')
@@ -96,9 +95,9 @@ class MailNotifier(BaseNotifier):
                                                       cc_recipients.values(),
                                                       message, **kwargs)
                 mailhost = getToolByName(object_, "MailHost")
-                
+
                 # XXX: Unfortunality we have to implement the carbon copy
-                # feature by ourself. 
+                # feature by ourself.
                 to_addr = '%s, %s' % (email['To'], email['CC'])
                 mailhost.send(email.as_string(), to_addr, email['From'], subject)
                 IStatusMessage(object_.REQUEST).addStatusMessage(

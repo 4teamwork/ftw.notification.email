@@ -12,8 +12,8 @@
       handler=".events.handlers.notification_sent"
       />
 
-  <utility 
-      factory=".notifier.MailNotifier" 
+  <utility
+      factory=".notifier.MailNotifier"
       provides="ftw.notification.base.interfaces.INotifier"
       name="email-notifier"
       />
@@ -23,6 +23,13 @@
       for="Products.CMFCore.interfaces._content.IContentish"
       provides=".interfaces.IEMailRepresentation"
       />
+
+  <adapter
+	  factory=".adapters.BaseSubjectCreator"
+	  for="Products.Archetypes.interfaces.base.IBaseObject"
+	  provides=".interfaces.ISubjectCreator"
+	  />
+
 
 
 </configure>
