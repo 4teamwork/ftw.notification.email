@@ -5,6 +5,9 @@ Changelog
 1.0.3
 -----
 
+* Added SubjectCreator adapter. Added propertiestool.xml modified notifier.py
+  [31.05.2011, timon.tschanz]
+
 
 1.0.2
 -----
