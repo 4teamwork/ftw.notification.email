@@ -12,7 +12,6 @@ class BaseSubjectCreator(object):
         self.request = self.context.REQUEST
 
     def __call__(self, object_):
-        import pdb; pdb.set_trace( )
         site = hooks.getSite()
         portal_properties = getToolByName(object_, 'portal_properties')
         default_subject = '[%s] Notification: %s' % (site.Title(), object_.Title())
