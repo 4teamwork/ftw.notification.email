@@ -5,6 +5,9 @@ Changelog
 1.0.5
 -----
 
+* Added Test for ftw.notification.email
+  [15.06.2011, timon.tschanz]
+
 
 1.0.4
 -----
@@ -19,7 +22,7 @@ Changelog
 
 1.0.2
 -----
-* Fix subject encoding. 
+* Fix subject encoding.
   [19.04.2011, mathias.leimgruber]
 
 1.0.1

@@ -4,6 +4,10 @@ import os
 version = open('ftw/notification/email/version.txt').read().strip()
 maintainer = 'Victor Baumann'
 
+tests_require = [
+    'plone.app.testing',
+]
+
 setup(name='ftw.notification.email',
       version=version,
       description="Maintainer: %s" % maintainer,
@@ -26,9 +30,14 @@ setup(name='ftw.notification.email',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'stoneagehtml'
+          'stoneagehtml',
+          'ftw.journal',
+          'ftw.notification.base',
+
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
       entry_points="""
       # -*- Entry points: -*-
       """,
