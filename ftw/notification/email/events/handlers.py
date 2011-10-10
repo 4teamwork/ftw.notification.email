@@ -56,4 +56,3 @@ def notification_sent(event):
         message=comment,
         object_= obj,
         **kwargs)
-    
