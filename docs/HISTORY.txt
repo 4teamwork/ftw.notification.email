@@ -2,77 +2,62 @@ Changelog
 =========
 
 
-1.0.6
------
+1.0.6 (unreleased)
+------------------
+
+- Nothing changed yet.
 
 
-1.0.5
------
+1.0.5 (2011-09-08)
+------------------
 
-* Added Test for ftw.notification.email
-  [15.06.2011, timon.tschanz]
-
-
-1.0.4
------
+- Added Test for ftw.notification.email
+  [timon.tschanz]
 
 
-1.0.3
------
+1.0.3 (2011-05-31)
+------------------
 
-* Added SubjectCreator adapter. Added propertiestool.xml modified notifier.py
-  [31.05.2011, timon.tschanz]
-
-
-1.0.2
------
-* Fix subject encoding.
-  [19.04.2011, mathias.leimgruber]
-
-1.0.1
------
-* Save notification in Journal, using ftw.journal.
-  [20.01.2011, mathias.leimgruber]
-
-1.0
----
-* Fix translations
-  [21.12.2010, mathias.leimgruber]
-
-0.6
----
-* Implement CC notification.
-  [25.11.2010, mathias.leimgruber]
-
-* Translations, remove izug message domains.
-  [25.11.2010, mathias.leimgruber]
-
-0.5
----
+- Added SubjectCreator adapter. Added propertiestool.xml modified notifier.py
+  [timon.tschanz]
 
 
-0.4
----
+1.0.2 (2011-04-19)
+------------------
 
-* Issue #7 [iZug] Text in Hinweismail verallgemeineren
-  https://extranet.4teamwork.ch/intranet/10-interne-projekte/4teamwork-egov/tracker-4teamwork-egov/7/
-  Die Ueberschrift der Benachrichtigung ist jetzt nicht mehr hart codiert, sondern kann ueber
-  das Property `ftw_notification_properties/notification_email_subject` ueberschrieben werden.
-  [15.03.2010, jbaumann]
+- Fix subject encoding.
+  [mathias.leimgruber]
 
 
-0.3
----
+1.0.1 (2011-01-25)
+------------------
 
-* [04.09.2009] Issue #644: Benachrichtigung - kein Empfaenger ausgewaehlt [vba]
-
-
-0.2
----
+- Save notification in Journal, using ftw.journal.
+  [mathias.leimgruber]
 
 
+1.0 (2010-12-22)
+----------------
 
-0.1
----
+- Fix translations
+  [mathias.leimgruber]
 
-* Initial release
+
+0.6 (2010-11-30)
+----------------
+
+- Implement CC notification.
+  [mathias.leimgruber]
+
+- Update translations.
+  [mathias.leimgruber]
+
+
+0.5 (2010-10-26)
+----------------
+
+- Make subject of the notification email customizable through a property.
+  [jone]
+
+- Fix bug when no recipient is selected.
+  [vba]
