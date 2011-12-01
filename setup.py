@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 import os
 
-version = open('ftw/notification/email/version.txt').read().strip()
-maintainer = 'Victor Baumann'
+version = '1.0.6dev'
+maintainer = 'Jonas Baumann'
 
 tests_require = [
     'plone.app.testing',
