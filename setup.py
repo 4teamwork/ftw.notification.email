@@ -7,6 +7,8 @@ maintainer = 'Jonas Baumann'
 tests_require = [
     'plone.app.testing',
     'plone.testing',
+    'ftw.notification.base',
+    'ftw.table',
     ]
 
 setup(name='ftw.notification.email',

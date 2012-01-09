@@ -14,6 +14,9 @@ class NotificationIntegrationLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
 
         # Load testing zcml (optional)
+        import ftw.notification.base
+        xmlconfig.file('configure.zcml', ftw.notification.base, context=configurationContext)
+
         import ftw.notification.email
         xmlconfig.file('configure.zcml', ftw.notification.email, context=configurationContext)
 
