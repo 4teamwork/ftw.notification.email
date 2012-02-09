@@ -1,10 +1,7 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-20 15:22+0000\n"
+"POT-Creation-Date: 2012-02-08 17:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +18,9 @@ msgstr ""
 msgid "HTML E-Mail"
 msgstr ""
 
+msgid "Notification"
+msgstr ""
+
 #: ./ftw/notification/email/templates/base.pt:4
 msgid "comment"
 msgstr ""
@@ -30,12 +30,8 @@ msgstr ""
 msgid "email_contification_text"
 msgstr ""
 
-#: ./ftw/notification/email/events/handlers.py:40
-msgid "journal_notification_text"
-msgstr ""
-
 #. Default: "Send Notification"
-#: ./ftw/notification/email/events/handlers.py:21
+#: ./ftw/notification/email/events/handlers.py:22
 msgid "label_send_notification"
 msgstr ""
 
