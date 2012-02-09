@@ -5,7 +5,7 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Added translation in mail subject.
+- Added translation in mail subject. This package does not work for Plone 3 anymore!
   [Julian Infanger]
 
 - Fixed test setup.

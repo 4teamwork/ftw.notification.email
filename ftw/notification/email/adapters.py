@@ -1,6 +1,7 @@
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from zope.app.component import hooks
+from zope.i18n import translate
 
 
 class BaseSubjectCreator(object):
@@ -13,14 +14,12 @@ class BaseSubjectCreator(object):
 
     def __call__(self, object_):
         site = hooks.getSite()
-        translationservice = getToolByName(object_, 'translation_service')
         portal_properties = getToolByName(object_, 'portal_properties')
         default_subject = '[%s] %s: %s' % (
             site.Title(),
-            translationservice.translate(
-                u'Notification',
-                domain="ftw.notification.email",
-                context=object_.REQUEST).encode('utf8'),
+            translate(u'Notification',
+                     domain="ftw.notification.email",
+                     context=object_.REQUEST).encode('utf8'),
             object_.Title())
         subject = None
         try:
