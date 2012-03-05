@@ -13,12 +13,10 @@ import sys
 import traceback
 
 
-
 logger = logging.getLogger('ftw.notification.email')
 
 
 class MailNotifier(BaseNotifier):
-
 
     def create_recipients(self, user_list):
         """Creates a unique list of recipients"""
@@ -82,7 +80,8 @@ class MailNotifier(BaseNotifier):
                 # XXX: Unfortunality we have to implement the carbon copy
                 # feature by ourself.
                 to_addr = '%s, %s' % (email['To'], email['CC'])
-                mailhost.send(email.as_string(), to_addr, email['From'], subject)
+                mailhost.send(
+                    email.as_string(), to_addr, email['From'], subject)
                 IStatusMessage(object_.REQUEST).addStatusMessage(
                         _nb('statusmessage_notification_sent'), type='info')
             except (ConflictError, Retry):

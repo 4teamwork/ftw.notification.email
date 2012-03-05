@@ -20,8 +20,10 @@ from interfaces import IEMailComposer
 
 _ = lambda x: x
 
+
 def _render_cachekey(method, self, vars):
     return (vars)
+
 
 def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
                      headers=None, encoding='UTF-8', attachments=[]):
@@ -45,7 +47,7 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
         # append the anchorlist at the bottom of a message
         # to keep the message readable.
         counter = 0
-        anchorlist  = "\n\n" + ("-" * plain_text_maxcols) + "\n\n"
+        anchorlist = "\n\n" + ("-" * plain_text_maxcols) + "\n\n"
         for item in parser.anchorlist:
             counter += 1
             anchorlist += "[%d] %s\n" % (counter, item)
@@ -58,7 +60,6 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     # if we would like to include images in future, there should
     # probably be 'related' instead of 'mixed'
     msg = MIMEMultipart('mixed')
-    # maybe later :)  msg['From'] = Header("%s <%s>" % (send_from_name, send_from), encoding)
     msg['Subject'] = Header(subject, encoding)
     msg['From'] = from_addr
     msg['To'] = to_addr
@@ -75,25 +76,26 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
 
     alternatives = MIMEMultipart('alternative')
     msg.attach(alternatives)
-    alternatives.attach( MIMEText(text, 'plain', _charset=encoding) )
-    alternatives.attach( MIMEText(html, 'html',  _charset=encoding) )
+    alternatives.attach(MIMEText(text, 'plain', _charset=encoding))
+    alternatives.attach(MIMEText(html, 'html', _charset=encoding))
 
     #add the attachments
     for f, name, mimetype in attachments:
-          if mimetype is None:
-              mimetype = ('application', 'octet-stream')
-          maintype, subtype = mimetype
-          if maintype == 'text':
-              # XXX: encoding?
-              part = MIMEText(f.read(), _subtype=subtype)
-          else:
-              part = MIMEBase(maintype, subtype)
-              part.set_payload(f.read())
-              Encoders.encode_base64(part)
-          part.add_header('Content-Disposition', 'attachment; filename="%s"' % name)
-          msg.attach(part)
-
+        if mimetype is None:
+            mimetype = ('application', 'octet-stream')
+        maintype, subtype = mimetype
+        if maintype == 'text':
+            # XXX: encoding?
+            part = MIMEText(f.read(), _subtype=subtype)
+        else:
+            part = MIMEBase(maintype, subtype)
+            part.set_payload(f.read())
+            Encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition', 'attachment; filename="%s"' % name)
+        msg.attach(part)
     return msg
+
 
 class HTMLComposer(persistent.Persistent):
     # """
@@ -107,10 +109,12 @@ class HTMLComposer(persistent.Persistent):
 
     title = _(u'HTML E-Mail')
 
-    def __init__(self, message, subject, to_addresses, cc_addresses=[], from_name=u'', from_address='', stylesheet='', replyto_address=''):
+    def __init__(self, message, subject, to_addresses, cc_addresses=[],
+        from_name=u'', from_address='', stylesheet='', replyto_address=''):
         properties = component.getUtility(
             Products.CMFCore.interfaces.IPropertiesTool)
-        self.encoding = properties.site_properties.getProperty('default_charset', 'utf-8')
+        self.encoding = properties.site_properties.getProperty(
+            'default_charset', 'utf-8')
         self.stylesheet = stylesheet
         self.from_name = from_name or properties.email_from_name
         self.from_address = from_address or properties.email_from_address
@@ -125,6 +129,7 @@ class HTMLComposer(persistent.Persistent):
     template = ViewPageTemplateFile('templates/composer-html.pt')
 
     context = None
+
     @property
     def request(self):
         site = zope.app.component.hooks.getSite()
@@ -141,7 +146,8 @@ class HTMLComposer(persistent.Persistent):
 
     @property
     def _from_address(self):
-        return self._prepare_address(self.from_name, self.from_address, self.encoding)
+        return self._prepare_address(
+            self.from_name, self.from_address, self.encoding)
 
     def _to_addresses(self, to_addresses):
         addresses = []
@@ -165,9 +171,11 @@ class HTMLComposer(persistent.Persistent):
         pass different variables to the templates.
         """
         vars = {}
-        site = component.getUtility(Products.CMFPlone.interfaces.IPloneSiteRoot)
+        site = component.getUtility(
+            Products.CMFPlone.interfaces.IPloneSiteRoot)
         #site = utils.fix_request(site, 0)
-        fix_urls = lambda t: t #lambda t: transform.URL(site).__call__(t, subscription)
+        #lambda t: transform.URL(site).__call__(t, subscription)
+        fix_urls = lambda t: t
         vars['site_url'] = site.absolute_url()
         vars['site_title'] = site.Title()
         vars['subject'] = self.subject
@@ -209,7 +217,8 @@ class HTMLComposer(persistent.Persistent):
         html = string.Template(html).safe_substitute(template_vars)
         return html
 
-    def render(self, override_vars=None, template_vars={}, attachments=[], **kwargs):
+    def render(self, override_vars=None, template_vars={}, attachments=[],
+        **kwargs):
         vars = self._vars()
 
         if override_vars is None:
@@ -217,7 +226,10 @@ class HTMLComposer(persistent.Persistent):
         vars.update(override_vars)
         message = create_html_mail(
             vars['subject'],
-            self.html(override_vars=override_vars,template_vars=template_vars,**kwargs),
+            self.html(
+                override_vars=override_vars,
+                template_vars=template_vars,
+                **kwargs),
             from_addr=vars['from_addr'],
             to_addr=vars['to_addr'],
             headers=vars.get('more_headers'),

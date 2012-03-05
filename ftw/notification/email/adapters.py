@@ -60,6 +60,5 @@ class AttachmentCreator(object):
         #         ical_attachment = (
         #             ical_file, 'ICal.ics', mime_type.split('/'))
         #         attachments = [ical_attachment,]
-        # import pdb; pdb.set_trace( )
         # return attachments
         return []
