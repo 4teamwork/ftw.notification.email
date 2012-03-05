@@ -5,7 +5,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 class BaseEmailRepresentation(object):
     """returns a email representation of an IBaseContent for HTML.
     """
-    
+
     template = ViewPageTemplateFile('base.pt')
     #XXX: replace with CSSVIew
     stylesheet = """
@@ -21,9 +21,9 @@ class BaseEmailRepresentation(object):
         width: auto;
     }
     ul, ol, dl {
-        padding-right: 0.5em;	
+        padding-right: 0.5em;
     }
-    ul { 
+    ul {
         list-style-type: square;
     }
     .documentDescription {
@@ -49,20 +49,20 @@ class BaseEmailRepresentation(object):
         color: #520;
         background: transparent;
     }
-    
+
     hr{
         border:none;
         border-bottom:1px solid grey;
     }
     """
-    
-    
+
+
     def __init__(self, context):
          self.context = aq_inner(context)
          self.request = self.context.REQUEST
 
-    def __call__(self, subject, to_list, cc_list, message, **kwargs):
+    def __call__(self, subject, to_list, cc_list, message, attachments=[], **kwargs):
         self.comment = message.replace('\n', '<br />')
         self.__dict__.update(kwargs)
         composer = HTMLComposer(self.template(self), subject, to_list, cc_list, replyto_address=kwargs['sender'])
-        return composer.render(filter_tags=False, override_vars=dict(stylesheet=self.stylesheet))
+        return composer.render(filter_tags=False, override_vars=dict(stylesheet=self.stylesheet),attachments=attachments)

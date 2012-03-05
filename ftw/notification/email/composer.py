@@ -7,11 +7,12 @@ import zope.sendmail.mailer
 from zope import component
 from zope import interface
 import persistent
-import email 
-from email.Utils import formataddr
+from email import Encoders
+from email import Utils
 from email.Header import Header
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
+from email.MIMEBase import MIMEBase
 from email.Utils import formatdate
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 import Products.CMFPlone.interfaces
@@ -23,7 +24,7 @@ def _render_cachekey(method, self, vars):
     return (vars)
 
 def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
-                     headers=None, encoding='UTF-8'):
+                     headers=None, encoding='UTF-8', attachments=[]):
     """Create a mime-message that will render HTML in popular
     MUAs, text in better ones.
     """
@@ -42,7 +43,7 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
         parser.close()
 
         # append the anchorlist at the bottom of a message
-        # to keep the message readable. 
+        # to keep the message readable.
         counter = 0
         anchorlist  = "\n\n" + ("-" * plain_text_maxcols) + "\n\n"
         for item in parser.anchorlist:
@@ -54,7 +55,7 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     else:
         text = text.encode(encoding)
 
-    # if we would like to include images in future, there should 
+    # if we would like to include images in future, there should
     # probably be 'related' instead of 'mixed'
     msg = MIMEMultipart('mixed')
     # maybe later :)  msg['From'] = Header("%s <%s>" % (send_from_name, send_from), encoding)
@@ -62,13 +63,13 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     msg['From'] = from_addr
     msg['To'] = to_addr
     msg['Date'] = formatdate(localtime=True)
-    msg["Message-ID"] = email.Utils.make_msgid()
+    msg["Message-ID"] = Utils.make_msgid()
     if headers:
         for key, value in headers.items():
             # XXX: Usually this works
             #if key in ['CC',]:
             #    msg[key] = Header(value)
-            #else:                
+            #else:
             msg[key] = value
     msg.preamble = 'This is a multi-part message in MIME format.'
 
@@ -76,7 +77,22 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     msg.attach(alternatives)
     alternatives.attach( MIMEText(text, 'plain', _charset=encoding) )
     alternatives.attach( MIMEText(html, 'html',  _charset=encoding) )
-    
+
+    #add the attachments
+    for f, name, mimetype in attachments:
+          if mimetype is None:
+              mimetype = ('application', 'octet-stream')
+          maintype, subtype = mimetype
+          if maintype == 'text':
+              # XXX: encoding?
+              part = MIMEText(f.read(), _subtype=subtype)
+          else:
+              part = MIMEBase(maintype, subtype)
+              part.set_payload(f.read())
+              Encoders.encode_base64(part)
+          part.add_header('Content-Disposition', 'attachment; filename="%s"' % name)
+          msg.attach(part)
+
     return msg
 
 class HTMLComposer(persistent.Persistent):
@@ -105,9 +121,9 @@ class HTMLComposer(persistent.Persistent):
         self.message = message
         self.header_text = u""
         self.footer_text = u""
-    
+
     template = ViewPageTemplateFile('templates/composer-html.pt')
-    
+
     context = None
     @property
     def request(self):
@@ -121,7 +137,7 @@ class HTMLComposer(persistent.Persistent):
             # mail has to be be ASCII!!
             mail = mail.decode(charset).encode('us-ascii', 'replace')
             #TODO : assert that mail is now valid. (could have '?' from repl.)
-        return formataddr((str(Header(name, charset)), mail))
+        return Utils.formataddr((str(Header(name, charset)), mail))
 
     @property
     def _from_address(self):
@@ -140,7 +156,7 @@ class HTMLComposer(persistent.Persistent):
 
     @property
     def language(self):
-        return self.request.get('LANGUAGE')        
+        return self.request.get('LANGUAGE')
 
     def _vars(self):
         """Provide variables for the template.
@@ -173,7 +189,7 @@ class HTMLComposer(persistent.Persistent):
         # variables.  We'd probably want to pass 'items' along to that
         # adapter.
 
-        return vars    
+        return vars
 
 
     #@volatile.cache(_render_cachekey)
@@ -193,7 +209,7 @@ class HTMLComposer(persistent.Persistent):
         html = string.Template(html).safe_substitute(template_vars)
         return html
 
-    def render(self, override_vars=None, template_vars={}, **kwargs):
+    def render(self, override_vars=None, template_vars={}, attachments=[], **kwargs):
         vars = self._vars()
 
         if override_vars is None:
@@ -205,6 +221,7 @@ class HTMLComposer(persistent.Persistent):
             from_addr=vars['from_addr'],
             to_addr=vars['to_addr'],
             headers=vars.get('more_headers'),
-            encoding=self.encoding)
-        
+            encoding=self.encoding,
+            attachments=attachments)
+
         return message

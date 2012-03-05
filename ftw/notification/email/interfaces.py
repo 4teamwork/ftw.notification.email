@@ -13,16 +13,24 @@ class IFormatItem(Interface):
     def __call__():
         """Returns a unicode-string."""
 
+
 class IEMailComposer(Interface):
     """An email composer.
     """
+
 
 class ISubjectCreator(Interface):
     """Interface for
     """
 
+
 class IMailNotifier(INotifier):
     """Interface for
+    """
+
+
+class IAttachmentCreator(Interface):
+    """Interface for attachments
     """
 
 

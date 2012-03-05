@@ -27,6 +27,39 @@ class BaseSubjectCreator(object):
         except AttributeError:
             subject = default_subject
         else:
-            subject = sheet.getProperty('notification_email_subject', default_subject)+': '+object_.Title()
+            subject = sheet.getProperty(
+                'notification_email_subject',
+                default_subject)+': '+object_.Title()
         return subject
 
+
+class AttachmentCreator(object):
+    """An base-adapter to add attachments"""
+
+    def __init__(self, context):
+        self.context = aq_inner(context)
+        self.request = self.context.REQUEST
+
+    def __call__(self, object_):
+        """Usualy this Adapters does nothing,
+        bewlow is an example how implement an attachment using StringIO.
+
+        @return tuple(file, name, mimetype)"""
+
+        # mime_type = "text/calendar"
+        # attachments = []
+        # self.meeting_types = ['dates_additional',
+        #                       'meeting_dates_additional',]
+
+        # if object_.getMeeting_type() in self.meeting_types:
+        #     ical_view = getattr(object_.aq_explicit, 'ics_view', None)
+        #     if ical_view:
+        #         ical_view = ical_view(
+        #             object_.REQUEST, object_.REQUEST.RESPONSE)
+        #         ical_file = StringIO(ical_view)
+        #         ical_attachment = (
+        #             ical_file, 'ICal.ics', mime_type.split('/'))
+        #         attachments = [ical_attachment,]
+        # import pdb; pdb.set_trace( )
+        # return attachments
+        return []

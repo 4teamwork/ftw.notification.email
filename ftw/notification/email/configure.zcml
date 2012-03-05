@@ -26,10 +26,17 @@
       />
 
   <adapter
-	  factory=".adapters.BaseSubjectCreator"
-	  for="Products.Archetypes.interfaces.base.IBaseObject"
-	  provides=".interfaces.ISubjectCreator"
-	  />
+      factory=".adapters.BaseSubjectCreator"
+      for="Products.Archetypes.interfaces.base.IBaseObject"
+      provides=".interfaces.ISubjectCreator"
+      />
+
+  <adapter
+      factory=".adapters.AttachmentCreator"
+      for="Products.Archetypes.interfaces.base.IBaseObject"
+      provides=".interfaces.IAttachmentCreator"
+      />
+
 
     <genericsetup:registerProfile
       name="default"

@@ -2,8 +2,11 @@ Changelog
 =========
 
 
-1.0.6 (unreleased)
+2.0 (unreleased)
 ------------------
+
+- Add possibility to add attachments to an email.
+  [mathias.leimgruber]
 
 - Added translation in mail subject. This package does not work for Plone 3 anymore!
   [Julian Infanger]

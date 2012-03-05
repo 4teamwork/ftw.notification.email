@@ -1,13 +1,12 @@
 from ftw.notification.base import notification_base_factory as _nb
 from ftw.notification.base.notifier import BaseNotifier
-from ftw.notification.email import emailNotificationMessageFactory as _
-from ftw.notification.email.interfaces import IEMailRepresentation, ISubjectCreator
+from ftw.notification.email.interfaces import (
+    IEMailRepresentation, ISubjectCreator, IAttachmentCreator)
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from StringIO import StringIO
 from ZODB.POSException import ConflictError
 from zope.app.component import hooks
-from zope.i18n import translate
 from zope.publisher.interfaces import Retry
 import logging
 import sys
@@ -46,7 +45,6 @@ class MailNotifier(BaseNotifier):
                           message=u"", **kwargs):
         site = hooks.getSite()
         portal_membership = getToolByName(object_ or site, 'portal_membership')
-        portal_properties = getToolByName(object_ or site, 'portal_properties')
 
         recipients = self.create_recipients(to_list)
         cc_recipients = self.create_recipients(cc_list)
@@ -67,33 +65,18 @@ class MailNotifier(BaseNotifier):
         kwargs.update(dict(sender=sender))
         if object_ is not None:
             try:
-                # / -- i18ndude hint -
-                if 0:
-                    _(
-                        u'notification_subject',
-                        mapping={'site_title':site.Title().decode('utf-8')})
-                default_subject = translate(
-                    u'notification_subject',
-                    domain='ftw.notification.email',
-                    context=object_.REQUEST,
-                    default=u'[${site_title}] Notification',
-                    mapping={'site_title':site.Title().decode('utf-8')})
                 subject = ISubjectCreator(object_)(object_)
-                # try:
-                #     sheet = portal_properties.ftw_notification_properties
-                # except AttributeError:
-                #     subject = default_subject
-                # else:
-                #     subject = sheet.getProperty('notification_email_subject',
-                #                                 default_subject)
-
+                # Call attachment adapter
+                attachments = IAttachmentCreator(object_)(object_)
                 # subject should be utf-8
                 if isinstance(subject, unicode):
                     subject = subject.encode('utf-8')
                 email = IEMailRepresentation(object_)(subject,
                                                       recipients.values(),
                                                       cc_recipients.values(),
-                                                      message, **kwargs)
+                                                      message,
+                                                      attachments=attachments,
+                                                      **kwargs)
                 mailhost = getToolByName(object_, "MailHost")
 
                 # XXX: Unfortunality we have to implement the carbon copy
