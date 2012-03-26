@@ -16,3 +16,6 @@ msgstr ""
 
 msgid "Notification"
 msgstr ""
+
+msgid "journal_notification_text"
+msgstr "journal_notification_text"

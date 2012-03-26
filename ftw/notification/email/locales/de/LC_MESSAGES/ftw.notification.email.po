@@ -38,4 +38,5 @@ msgstr ""
 msgid "notification_subject"
 msgstr "[${site_title}] Benachrichtigung"
 
-
+msgid "journal_notification_text"
+msgstr "Benachrichtigung gesendet an: AN:${to_list} CC: ${cc_list} ${comment}"
