@@ -14,9 +14,12 @@ class BaseSubjectCreator(object):
 
     def __call__(self, object_):
         site = hooks.getSite()
+        site_title = site.Title()
+        if isinstance(site_title, unicode):
+            site_title = site_title.encode('utf-8')
         portal_properties = getToolByName(object_, 'portal_properties')
         default_subject = '[%s] %s: %s' % (
-            site.Title(),
+            site_title,
             translate(u'Notification',
                      domain="ftw.notification.email",
                      context=object_.REQUEST).encode('utf8'),
