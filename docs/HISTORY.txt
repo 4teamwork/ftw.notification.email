@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.1 (unreleased)
-----------------
+2.0.1 (2012-03-26)
+------------------
 
 - Fixed email subject adapter. Raised UnicodeDecodeError
   if Umlauts are used in site.Title() oder object.Title()
