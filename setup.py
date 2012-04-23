@@ -41,7 +41,7 @@ setup(name='ftw.notification.email',
 
       install_requires=[
         'setuptools',
-        'stoneagehtml',
+        'StoneageHTML',
         'ftw.journal',
         'ftw.notification.base',
         ],

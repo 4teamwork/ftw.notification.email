@@ -5,7 +5,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed upper/lower case in StoneageHTML dependency to make version pin
+  work.
+  [buchi]
 
 
 2.0.2 (2012-03-26)
