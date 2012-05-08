@@ -1,12 +1,14 @@
 ftw.notification.email
 ======================
 
-This package is a extension for ``ftw.notification.base``, which provides
+This package is an extension for ``ftw.notification.base`` providing
 email notification after editing a content.
+
+See ``ftw.notification.base``_ for further details.
 
 
 Usage
------
+=====
 
 - Add ``ftw.notification.email`` to your buildout configuration:
 
@@ -25,10 +27,16 @@ Links
 - Main github project repository: https://github.com/4teamwork/ftw.notification.email
 - Issue tracker: https://github.com/4teamwork/ftw.notification.email/issues
 - Package on pypi: http://pypi.python.org/pypi/ftw.notification.email
-- Continuous integration: https://jenkins.4teamwork.ch/job/ftw.notification.email/
+- Continuous integration: https://jenkins.4teamwork.ch/search/?q=ftw.notification.email
 
 
-Maintainer
-==========
 
-This package is produced and maintained by `4teamwork <http://www.4teamwork.ch/>`_ company.
+Copyright
+=========
+
+This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
+
+``ftw.notification.email`` is licensed under GNU General Public License, version 2.
+
+
+.. _ftw.notification.base: https://github.com/4teamwork/ftw.notification.base
