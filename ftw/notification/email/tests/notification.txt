@@ -71,13 +71,13 @@ create the message object:
     <p style=3D"width: auto">test has sent you a notification</p>
     <strong>comment</strong><br />
     <p style=3D"width: auto">Message Body</p>
-    <hr style=3D"border: none;" />
+    <hr style=3D"border: none; border-bottom: 1px solid grey" />
     <h2 style=3D"border: none; font-family: Arial !important"></h2>
     <p style=3D"width: auto"></p>
     <p style=3D"width: auto"><a href=3D"http://nohost/plone/testdoc" style=3D"c=
     olor: Black !important; padding: 0 !important; text-decoration: underline !=
     important">http://nohost/plone/testdoc</a></p>
-    <hr style=3D"border: none;" />
+    <hr style=3D"border: none; border-bottom: 1px solid grey" />
     <p style=3D"width: auto">Dieses Mail wurde automatisch generiert. Um eine A=
     ntwort an die AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in de=
     r Fusszeile. </p>
