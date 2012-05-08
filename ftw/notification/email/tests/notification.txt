@@ -47,9 +47,8 @@ create the message object:
     <BLANKLINE>
     ------------------------------------------------------------------------
     <BLANKLINE>
-    Dieses Mail wurde automatisch generiert. Um eine Antwort an die
-    AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in der
-    Fusszeile.
+    This mail was generated automatically. For answering to the sender,
+    please see the contact details in the footnote.
     <BLANKLINE>
     --
     <BLANKLINE>
@@ -78,9 +77,10 @@ create the message object:
     olor: Black !important; padding: 0 !important; text-decoration: underline !=
     important">http://nohost/plone/testdoc</a></p>
     <hr style=3D"border: none; border-bottom: 1px solid grey" />
-    <p style=3D"width: auto">Dieses Mail wurde automatisch generiert. Um eine A=
-    ntwort an die AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in de=
-    r Fusszeile. </p>
+    <p style=3D"width: auto">
+        This mail was generated automatically. For answering to the sender,
+        please see the contact details in the footnote.
+    </p>
     <p style=3D"width: auto">--</p>
     <p style=3D"width: auto">test - test@localhost</p>
     </div>
