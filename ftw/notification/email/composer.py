@@ -1,35 +1,43 @@
-import formatter
-import string
-import StringIO
-import htmllib
-import stoneagehtml
-import zope.sendmail.mailer
-from zope import component
-from zope import interface
-import persistent
 from email import Encoders
 from email import Utils
 from email.Header import Header
+from email.MIMEBase import MIMEBase
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
 from email.Utils import formatdate
+from ftw.notification.email.interfaces import IEMailComposer
+from zope import component
+from zope import interface
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 import Products.CMFPlone.interfaces
-from interfaces import IEMailComposer
+import StringIO
+import formatter
+import htmllib
+import persistent
+import stoneagehtml
+import string
+import zope.sendmail.mailer
+
 
 _ = lambda x: x
 
 
-def _render_cachekey(method, self, vars):
-    return (vars)
+def _render_cachekey(method, self, vars_):
+    return (vars_)
+
+
+_marker = object()
 
 
 def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
-                     headers=None, encoding='UTF-8', attachments=[]):
+                     headers=None, encoding='UTF-8', attachments=_marker):
     """Create a mime-message that will render HTML in popular
     MUAs, text in better ones.
     """
+
+    if attachments is _marker:
+        attachments = []
+
     # Use DumbWriters word wrapping to ensure that no text line
     # is longer than plain_text_maxcols characters.
     plain_text_maxcols = 72
@@ -67,11 +75,8 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     msg["Message-ID"] = Utils.make_msgid()
     if headers:
         for key, value in headers.items():
-            # XXX: Usually this works
-            #if key in ['CC',]:
-            #    msg[key] = Header(value)
-            #else:
             msg[key] = value
+
     msg.preamble = 'This is a multi-part message in MIME format.'
 
     alternatives = MIMEMultipart('alternative')
@@ -109,8 +114,12 @@ class HTMLComposer(persistent.Persistent):
 
     title = _(u'HTML E-Mail')
 
-    def __init__(self, message, subject, to_addresses, cc_addresses=[],
+    def __init__(self, message, subject, to_addresses, cc_addresses=_marker,
         from_name=u'', from_address='', stylesheet='', replyto_address=''):
+
+        if cc_addresses is _marker:
+            cc_addresses = []
+
         properties = component.getUtility(
             Products.CMFCore.interfaces.IPropertiesTool)
         self.encoding = properties.site_properties.getProperty(
@@ -170,23 +179,23 @@ class HTMLComposer(persistent.Persistent):
         Override this or '_more_vars' in your custom HTMLComposer to
         pass different variables to the templates.
         """
-        vars = {}
+        variables = {}
         site = component.getUtility(
             Products.CMFPlone.interfaces.IPloneSiteRoot)
         #site = utils.fix_request(site, 0)
         #lambda t: transform.URL(site).__call__(t, subscription)
         fix_urls = lambda t: t
-        vars['site_url'] = site.absolute_url()
-        vars['site_title'] = site.Title()
-        vars['subject'] = self.subject
-        vars['message'] = self.message
+        variables['site_url'] = site.absolute_url()
+        variables['site_title'] = site.Title()
+        variables['subject'] = self.subject
+        variables['message'] = self.message
         # Why would header_text or footer_text ever be None?
-        vars['header_text'] = fix_urls(self.header_text or u"")
-        vars['footer_text'] = fix_urls(self.footer_text or u"")
-        vars['stylesheet'] = self.stylesheet
-        vars['from_addr'] = self._from_address
-        vars['to_addr'] = self._to_addresses(self.to_addresses)
-        headers = vars['more_headers'] = {}
+        variables['header_text'] = fix_urls(self.header_text or u"")
+        variables['footer_text'] = fix_urls(self.footer_text or u"")
+        variables['stylesheet'] = self.stylesheet
+        variables['from_addr'] = self._from_address
+        variables['to_addr'] = self._to_addresses(self.to_addresses)
+        headers = variables['more_headers'] = {}
         if self.replyto_address:
             headers['Reply-To'] = self._replyto_address
         cc_addr = self._to_addresses(self.cc_addresses)
@@ -197,42 +206,50 @@ class HTMLComposer(persistent.Persistent):
         # variables.  We'd probably want to pass 'items' along to that
         # adapter.
 
-        return vars
-
+        return variables
 
     #@volatile.cache(_render_cachekey)
-    def _html(self, vars, **kwargs):
-        html = self.template(**vars)
+    def _html(self, variables, **kwargs):
+        html = self.template(**variables)
         return stoneagehtml.compactify(html, **kwargs).decode('utf-8')
 
-    def html(self, override_vars=None, template_vars={}, **kwargs):
+    def html(self, override_vars=None, template_vars=_marker, **kwargs):
+        if template_vars is _marker:
+            template_vars = {}
 
-        vars = self._vars()
+        variables = self._vars()
 
         if override_vars is None:
             override_vars = {}
-        vars.update(override_vars)
+        variables.update(override_vars)
 
-        html = self._html(vars, **kwargs)
+        html = self._html(variables, **kwargs)
         html = string.Template(html).safe_substitute(template_vars)
         return html
 
-    def render(self, override_vars=None, template_vars={}, attachments=[],
-        **kwargs):
-        vars = self._vars()
+    def render(self, override_vars=None, template_vars=_marker,
+               attachments=_marker, **kwargs):
+
+        if template_vars is _marker:
+            template_vars = {}
+
+        if attachments is _marker:
+            attachments = []
+
+        variables = self._vars()
 
         if override_vars is None:
             override_vars = {}
-        vars.update(override_vars)
+        variables.update(override_vars)
         message = create_html_mail(
-            vars['subject'],
+            variables['subject'],
             self.html(
                 override_vars=override_vars,
                 template_vars=template_vars,
                 **kwargs),
-            from_addr=vars['from_addr'],
-            to_addr=vars['to_addr'],
-            headers=vars.get('more_headers'),
+            from_addr=variables['from_addr'],
+            to_addr=variables['to_addr'],
+            headers=variables.get('more_headers'),
             encoding=self.encoding,
             attachments=attachments)
 

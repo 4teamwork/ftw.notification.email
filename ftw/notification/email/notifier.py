@@ -15,6 +15,8 @@ import traceback
 
 logger = logging.getLogger('ftw.notification.email')
 
+_marker = object()
+
 
 class MailNotifier(BaseNotifier):
 
@@ -39,14 +41,20 @@ class MailNotifier(BaseNotifier):
             recipients[user_id] = (fullname, email)
         return recipients
 
-    def send_notification(self, to_list=[], cc_list=[], object_=None,
-                          message=u"", **kwargs):
+    def send_notification(self, to_list=_marker, cc_list=_marker,
+                          object_=None, message=u"", **kwargs):
+
+        if to_list is _marker:
+            to_list = []
+
+        if cc_list is _marker:
+            cc_list = []
+
         site = hooks.getSite()
         portal_membership = getToolByName(object_ or site, 'portal_membership')
 
         recipients = self.create_recipients(to_list)
         cc_recipients = self.create_recipients(cc_list)
-
 
         if not recipients:
             return

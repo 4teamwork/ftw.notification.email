@@ -32,7 +32,7 @@ class BaseSubjectCreator(object):
         else:
             subject = sheet.getProperty(
                 'notification_email_subject',
-                default_subject)+': '+object_.Title()
+                default_subject) + ': ' + object_.Title()
         return subject
 
 

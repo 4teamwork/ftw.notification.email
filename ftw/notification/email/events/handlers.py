@@ -8,12 +8,10 @@ from zope.event import notify
 from zope.i18n import translate
 
 
-
 def notification_sent(event):
     obj = event.obj
     comment = event.comment
     notifier = queryUtility(INotifier, name='email-notifier')
-
 
     if notifier is None:
         return
@@ -39,12 +37,12 @@ def notification_sent(event):
     cc_list = obj.REQUEST.get('cc_list', [])
 
     journal_comment = translate(
-        msgid = u'journal_notification_text',
+        msgid=u'journal_notification_text',
         domain='ftw.notification.email',
-        context = obj.REQUEST,
+        context=obj.REQUEST,
         mapping=dict(
-            to_list=len(to_list)>0 and ', '.join(to_list) + '\n' or '-', 
-            cc_list=len(cc_list)>0 and ', '.join(cc_list) + '\n' or '-', 
+            to_list=len(to_list) > 0 and ', '.join(to_list) + '\n' or '-',
+            cc_list=len(cc_list) > 0 and ', '.join(cc_list) + '\n' or '-',
             comment=comment))
 
     notify(JournalEntryEvent(obj, journal_comment, action))
@@ -54,5 +52,5 @@ def notification_sent(event):
         to_list=to_list,
         cc_list=cc_list,
         message=comment,
-        object_= obj,
+        object_=obj,
         **kwargs)

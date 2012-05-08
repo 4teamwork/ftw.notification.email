@@ -2,6 +2,10 @@ from Acquisition import aq_inner
 from ftw.notification.email.composer import HTMLComposer
 from zope.app.pagetemplate import ViewPageTemplateFile
 
+
+_marker = object()
+
+
 class BaseEmailRepresentation(object):
     """returns a email representation of an IBaseContent for HTML.
     """
@@ -56,13 +60,21 @@ class BaseEmailRepresentation(object):
     }
     """
 
-
     def __init__(self, context):
-         self.context = aq_inner(context)
-         self.request = self.context.REQUEST
+        self.context = aq_inner(context)
+        self.request = self.context.REQUEST
+        self.comment = None
 
-    def __call__(self, subject, to_list, cc_list, message, attachments=[], **kwargs):
+    def __call__(self, subject, to_list, cc_list, message,
+                 attachments=_marker, **kwargs):
+
+        if attachments is _marker:
+            attachments = []
+
         self.comment = message.replace('\n', '<br />')
         self.__dict__.update(kwargs)
-        composer = HTMLComposer(self.template(self), subject, to_list, cc_list, replyto_address=kwargs['sender'])
-        return composer.render(filter_tags=False, override_vars=dict(stylesheet=self.stylesheet),attachments=attachments)
+        composer = HTMLComposer(self.template(self), subject, to_list, cc_list,
+                                replyto_address=kwargs['sender'])
+        return composer.render(filter_tags=False,
+                               override_vars=dict(stylesheet=self.stylesheet),
+                               attachments=attachments)
