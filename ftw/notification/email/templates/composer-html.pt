@@ -5,11 +5,11 @@
       i18n:domain="ftw.sendmail">
 
   <head>
-    <title tal:content="options/subject">Subject</title>
+    <title tal:content="options/subject"><!-- Subject --></title>
     <style type="text/css"
            tal:content="structure options/stylesheet" />
   </head>
-  
+
   <body>
     <div class="header"
        tal:define="header options/header_text|nothing"

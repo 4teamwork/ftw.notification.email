@@ -3,14 +3,17 @@
 <p><tal:b tal:content="python:view.sender[0] " /> <tal:b i18n:translate="email_contification_text">has sent you a notification</tal:b></p>
 <strong i18n:translate="">comment</strong><br />
 <p tal:content="structure view/comment" />
-<hr />	
+<hr />
 <h2 tal:content="context/Title"></h2>
 <p tal:content="context/Description" />
 <p ><a tal:attributes="href context/absolute_url" tal:content="context/absolute_url" /></p>
 
-<hr />	
+<hr />
 
-<p>Dieses Mail wurde automatisch generiert. Um eine Antwort an die AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in der Fusszeile. </p>
+<p i18n:translate="msg_automated_generated">
+    This mail was generated automatically. For answering to the sender,
+    please see the contact details in the footnote.
+</p>
 <p>--</p>
 <p><tal:b tal:content="python:view.sender[0] " /> - <tal:b tal:content="python:view.sender[1] " /></p>
 
