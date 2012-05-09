@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.3 (unreleased)
+2.0.3 (2012-05-09)
 ------------------
 
 - Fixed upper/lower case in StoneageHTML dependency to make version pin
