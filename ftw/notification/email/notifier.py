@@ -87,7 +87,13 @@ class MailNotifier(BaseNotifier):
 
                 # XXX: Unfortunality we have to implement the carbon copy
                 # feature by ourself.
-                to_addr = '%s, %s' % (email['To'], email['CC'])
+                to_addr = []
+                if email['To']:
+                    to_addr.append(email['To'])
+                if email['CC']:
+                    to_addr.append(email['CC'])
+                to_addr = ','.join(to_addr)
+
                 mailhost.send(
                     email.as_string(), to_addr, email['From'], subject)
                 IStatusMessage(object_.REQUEST).addStatusMessage(

@@ -5,7 +5,8 @@ Changelog
 2.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix bug which caused notification to be sent to "None" if there is no CC recipient selected.
+  [jone]
 
 
 2.0.3 (2012-05-09)
