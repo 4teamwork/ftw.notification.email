@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.4 (unreleased)
+2.0.4 (2012-05-24)
 ------------------
 
 - Fix bug which caused notification to be sent to "None" if there is no CC recipient selected.
