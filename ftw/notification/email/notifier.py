@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from StringIO import StringIO
 from ZODB.POSException import ConflictError
-from zope.app.component import hooks
+from zope.component import hooks
 from zope.publisher.interfaces import Retry
 import logging
 import sys
