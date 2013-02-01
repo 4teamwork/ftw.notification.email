@@ -20,9 +20,9 @@ setup(name='ftw.notification.email',
 
       classifiers=[
         'Framework :: Plone',
-        'Framework :: Plone :: 4.0',
         'Framework :: Plone :: 4.1',
         'Framework :: Plone :: 4.2',
+        'Framework :: Plone :: 4.3',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],

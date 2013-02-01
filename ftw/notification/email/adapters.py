@@ -1,6 +1,6 @@
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
-from zope.app.component import hooks
+from zope.component import hooks
 from zope.i18n import translate
 
 
