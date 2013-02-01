@@ -1,3 +1,4 @@
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from email import Encoders
 from email import Utils
 from email.Header import Header
@@ -8,7 +9,6 @@ from email.Utils import formatdate
 from ftw.notification.email.interfaces import IEMailComposer
 from zope import component
 from zope import interface
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 import Products.CMFPlone.interfaces
 import StringIO
 import formatter
@@ -141,7 +141,7 @@ class HTMLComposer(persistent.Persistent):
 
     @property
     def request(self):
-        site = zope.app.component.hooks.getSite()
+        site = zope.component.hooks.getSite()
         return site.REQUEST
 
     def _prepare_address(self, name, mail, charset):

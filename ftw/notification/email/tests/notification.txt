@@ -4,7 +4,7 @@ Composer
     >>> from ftw.notification.email.composer import HTMLComposer
     >>> from ftw.notification.email.composer import create_html_mail
     >>> from ftw.notification.email.interfaces import IEMailRepresentation, ISubjectCreator
-    >>> from zope.app.component.hooks import getSite
+    >>> from zope.component.hooks import getSite
     >>> from Products.CMFCore.utils import getToolByName
     >>> from plone.app.testing import TEST_USER_NAME
     >>> from plone.app.testing import TEST_USER_ID

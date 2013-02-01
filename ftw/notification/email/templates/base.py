@@ -1,7 +1,6 @@
 from Acquisition import aq_inner
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ftw.notification.email.composer import HTMLComposer
-from zope.app.pagetemplate import ViewPageTemplateFile
-
 
 _marker = object()
 
