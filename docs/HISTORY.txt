@@ -5,6 +5,9 @@ Changelog
 2.0.5 (unreleased)
 ------------------
 
+- Drop Plone 4.0 compatibility.
+  [jone]
+
 - Plone 4.3 compatibility.
   [jone]
 
