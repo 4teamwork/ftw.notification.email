@@ -40,3 +40,7 @@ This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
 
 .. _ftw.notification.base: https://github.com/4teamwork/ftw.notification.base
+
+.. image:: https://cruel-carlota.pagodabox.com/1099341b846a965009ef3b0d852dffa1
+   :alt: githalytics.com
+   :target: http://githalytics.com/4teamwork/ftw.notification
