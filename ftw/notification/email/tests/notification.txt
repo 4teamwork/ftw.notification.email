@@ -95,3 +95,25 @@ create the message object:
     >>> mailhost.smtp_host
     ''
     >>> mailhost.send(email.as_string(), 'v.baumann@4teamwork.ch', 'test@localhost', 'Subject')
+
+
+Extract email addresses from ids
+
+    >>> from ftw.notification.email.events.handlers import get_emails_from_ids
+
+No email address, returns the userid
+    >>> get_emails_from_ids([TEST_USER_ID])
+    ['test_user_1_']
+
+Return email
+    >>> regtool = getToolByName(portal, 'portal_registration')
+    >>> user = regtool.addMember('user', 'password',
+    ...                          properties={'username': 'User',
+    ...                                     'fullname': 'fullname',
+    ...                                     'email': 'user@email.com'})
+    >>> user2 = regtool.addMember('user2', 'password',
+    ...                           properties={'username': 'User',
+    ...                                       'fullname': 'fullname',
+    ...                                       'email': 'user2@email.com'})
+    >>> get_emails_from_ids(['user', 'user2'])
+    ['user@email.com', 'user2@email.com']
