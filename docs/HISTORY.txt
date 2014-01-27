@@ -5,7 +5,7 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
-- Update French translations.
+- Update French and English translations.
   [jone]
 
 

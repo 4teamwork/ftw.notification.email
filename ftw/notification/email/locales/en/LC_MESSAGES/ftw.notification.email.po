@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-05-08 13:43+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./ftw/notification/email/composer.py:115
+msgid "HTML E-Mail"
+msgstr "HTML email"
+
+msgid "Notification"
+msgstr "Notification"
+
+#: ./ftw/notification/email/templates/base.pt:4
+msgid "comment"
+msgstr "comment"
+
+#. Default: "has sent you a notification"
+#: ./ftw/notification/email/templates/base.pt:3
+msgid "email_contification_text"
+msgstr ""
+
+#. Default: "journal_notification_text"
+msgid "journal_notification_text"
+msgstr "Notification sent to: ${to_list}, CC: ${cc_list} ${comment}"
+
+#. Default: "Send Notification"
+#: ./ftw/notification/email/events/handlers.py:20
+msgid "label_send_notification"
+msgstr "Send Notification"
+
+#. Default: "This mail was generated automatically. For answering to the sender, please see the contact details in the footnote."
+#: ./ftw/notification/email/templates/base.pt:13
+msgid "msg_automated_generated"
+msgstr "This mail was generated automatically. For answering to the sender, please see the contact details in the footnote."
