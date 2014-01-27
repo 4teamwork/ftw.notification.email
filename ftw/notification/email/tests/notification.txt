@@ -77,10 +77,8 @@ create the message object:
     olor: Black !important; padding: 0 !important; text-decoration: underline !=
     important">http://nohost/plone/testdoc</a></p>
     <hr style=3D"border: none; border-bottom: 1px solid grey" />
-    <p style=3D"width: auto">
-        This mail was generated automatically. For answering to the sender,
-        please see the contact details in the footnote.
-    </p>
+    <p style=3D"width: auto">This mail was generated automatically. For answeri=
+    ng to the sender, please see the contact details in the footnote.</p>
     <p style=3D"width: auto">--</p>
     <p style=3D"width: auto">test - test@localhost</p>
     </div>
