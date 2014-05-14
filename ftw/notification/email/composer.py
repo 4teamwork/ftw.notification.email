@@ -68,7 +68,7 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     # if we would like to include images in future, there should
     # probably be 'related' instead of 'mixed'
     msg = MIMEMultipart('mixed')
-    msg['Subject'] = Header(subject, encoding)
+    msg['Subject'] = subject
     msg['From'] = from_addr
     msg['To'] = to_addr
     msg['Date'] = formatdate(localtime=True)
@@ -144,31 +144,6 @@ class HTMLComposer(persistent.Persistent):
         site = zope.component.hooks.getSite()
         return site.REQUEST
 
-    def _prepare_address(self, name, mail, charset):
-        if not isinstance(name, unicode):
-            name = name.decode(charset)
-        if not isinstance(mail, unicode):
-            # mail has to be be ASCII!!
-            mail = mail.decode(charset).encode('us-ascii', 'replace')
-            #TODO : assert that mail is now valid. (could have '?' from repl.)
-        return Utils.formataddr((str(Header(name, charset)), mail))
-
-    @property
-    def _from_address(self):
-        return self._prepare_address(
-            self.from_name, self.from_address, self.encoding)
-
-    def _to_addresses(self, to_addresses):
-        addresses = []
-        for name, mail in to_addresses:
-            addresses.append(self._prepare_address(name, mail, self.encoding))
-        return ', '.join(addresses)
-
-    @property
-    def _replyto_address(self):
-        name, mail = self.replyto_address
-        return self._prepare_address(name, mail, self.encoding)
-
     @property
     def language(self):
         return self.request.get('LANGUAGE')
@@ -193,15 +168,14 @@ class HTMLComposer(persistent.Persistent):
         variables['header_text'] = fix_urls(self.header_text or u"")
         variables['footer_text'] = fix_urls(self.footer_text or u"")
         variables['stylesheet'] = self.stylesheet
-        variables['from_addr'] = self._from_address
-        variables['to_addr'] = self._to_addresses(self.to_addresses)
+        variables['from_addr'] = str(self.from_address)
+        variables['to_addr'] = str(self.to_addresses)
         headers = variables['more_headers'] = {}
         if self.replyto_address:
-            headers['Reply-To'] = self._replyto_address
-        cc_addr = self._to_addresses(self.cc_addresses)
+            headers['Reply-To'] = self.replyto_address
+        cc_addr = str(self.cc_addresses)
         if cc_addr:
             headers['CC'] = cc_addr
-
         # It'd be nice if we could use an adapter here to override
         # variables.  We'd probably want to pass 'items' along to that
         # adapter.

@@ -1,6 +1,6 @@
 <tal:translate i18n:domain="ftw.notification.email">
 
-<p><tal:b tal:content="python:view.sender[0] " /> <tal:b i18n:translate="email_contification_text">has sent you a notification</tal:b></p>
+<p><tal:b tal:content="python:view.sender " /> <tal:b i18n:translate="email_contification_text">has sent you a notification</tal:b></p>
 <strong i18n:translate="">comment</strong><br />
 <p tal:content="structure view/comment" />
 <hr />
@@ -15,6 +15,6 @@
     please see the contact details in the footnote.
 </p>
 <p>--</p>
-<p><tal:b tal:content="python:view.sender[0] " /> - <tal:b tal:content="python:view.sender[1] " /></p>
+<p><tal:b tal:content="python:view.sender " /> - <tal:b tal:content="python:view.sender" /></p>
 
 </tal:translate>
