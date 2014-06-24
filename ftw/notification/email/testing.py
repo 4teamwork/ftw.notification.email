@@ -2,16 +2,19 @@ from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting, FunctionalTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+
 from zope.configuration import xmlconfig
+from ftw.builder.testing import BUILDER_LAYER
 
 
 class NotificationIntegrationLayer(PloneSandboxLayer):
     """Layer for integration tests."""
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
-
         # Load testing zcml (optional)
         import ftw.notification.base
         xmlconfig.file('configure.zcml', ftw.notification.base,
@@ -23,6 +26,7 @@ class NotificationIntegrationLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.notification.email:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
 
 NOTIFICATION_INTEGRATION_FIXTURE = NotificationIntegrationLayer()

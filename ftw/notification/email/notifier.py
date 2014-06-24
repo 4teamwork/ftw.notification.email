@@ -11,7 +11,7 @@ from zope.publisher.interfaces import Retry
 import logging
 import sys
 import traceback
-
+from email.header import Header
 
 logger = logging.getLogger('ftw.notification.email')
 
@@ -26,7 +26,7 @@ class MailNotifier(BaseNotifier):
         site = hooks.getSite()
         portal_membership = getToolByName(site, 'portal_membership')
 
-        recipients = {}
+        recipients = Header()
 
         for user_id in user_list:
             member = portal_membership.getMemberById(user_id)
@@ -38,7 +38,8 @@ class MailNotifier(BaseNotifier):
             email = member.getProperty('email', None)
             if email is None:
                 continue
-            recipients[user_id] = (fullname, email)
+            recipients.append(fullname, 'utf-8')
+            recipients.append(' <' + email + '>,')
         return recipients
 
     def send_notification(self, to_list=_marker, cc_list=_marker,
@@ -52,14 +53,13 @@ class MailNotifier(BaseNotifier):
 
         site = hooks.getSite()
         portal_membership = getToolByName(object_ or site, 'portal_membership')
-
         recipients = self.create_recipients(to_list)
         cc_recipients = self.create_recipients(cc_list)
 
         if not recipients:
             return
 
-        sender = None
+        sender = ''
         sender_id = kwargs.get('actor', '')
         sender_data = portal_membership.getMemberById(sender_id)
         if sender_data is not None:
@@ -67,7 +67,9 @@ class MailNotifier(BaseNotifier):
             if not len(sender_fullname):
                 sender_fullname = sender_id
             sender_email = sender_data.getProperty('email', '')
-            sender = (sender_fullname, sender_email)
+            if sender_email: 
+                sender = Header(sender_fullname, 'utf-8')
+                sender = (sender_fullname, sender_email)
         kwargs.update(dict(sender=sender))
         if object_ is not None:
             try:
@@ -77,25 +79,16 @@ class MailNotifier(BaseNotifier):
                 # subject should be utf-8
                 if isinstance(subject, unicode):
                     subject = subject.encode('utf-8')
+                subject = Header(subject, 'utf-8')
                 email = IEMailRepresentation(object_)(subject,
-                                                      recipients.values(),
-                                                      cc_recipients.values(),
+                                                      recipients,
+                                                      cc_recipients,
                                                       message,
                                                       attachments=attachments,
                                                       **kwargs)
                 mailhost = getToolByName(object_, "MailHost")
-
-                # XXX: Unfortunality we have to implement the carbon copy
-                # feature by ourself.
-                to_addr = []
-                if email['To']:
-                    to_addr.append(email['To'])
-                if email['CC']:
-                    to_addr.append(email['CC'])
-                to_addr = ','.join(to_addr)
-
                 mailhost.send(
-                    email.as_string(), to_addr, email['From'], subject)
+                    email)
                 IStatusMessage(object_.REQUEST).addStatusMessage(
                         _nb('statusmessage_notification_sent'), type='info')
             except (ConflictError, Retry):
