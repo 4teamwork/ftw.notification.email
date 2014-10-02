@@ -5,7 +5,9 @@ Changelog
 2.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix bug when building emails with an actor / reply-to header.
+  This sems to be a regression from the refactoring in 2.0.8.
+  [jone]
 
 
 2.0.8 (2014-09-29)

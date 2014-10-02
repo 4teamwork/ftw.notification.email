@@ -51,26 +51,18 @@ class MailNotifier(BaseNotifier):
         if cc_list is _marker:
             cc_list = []
 
-        site = hooks.getSite()
-        portal_membership = getToolByName(object_ or site, 'portal_membership')
         recipients = self.create_recipients(to_list)
         cc_recipients = self.create_recipients(cc_list)
 
         if not recipients:
             return
 
-        sender = ''
-        sender_id = kwargs.get('actor', '')
-        sender_data = portal_membership.getMemberById(sender_id)
-        if sender_data is not None:
-            sender_fullname = sender_data.getProperty('fullname', sender_id)
-            if not len(sender_fullname):
-                sender_fullname = sender_id
-            sender_email = sender_data.getProperty('email', '')
-            if sender_email: 
-                sender = Header(sender_fullname, 'utf-8')
-                sender = (sender_fullname, sender_email)
-        kwargs.update(dict(sender=sender))
+        actor = kwargs.get('actor', None)
+        if actor:
+            kwargs['sender'] = self.create_recipients([actor])
+        else:
+            kwargs['sender'] = ''
+
         if object_ is not None:
             try:
                 subject = ISubjectCreator(object_)(object_)
