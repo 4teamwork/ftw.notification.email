@@ -10,8 +10,8 @@ Changelog
   [jone]
 
 
-2.0.8 (2014-09-29)
-------------------
+2.0.8 (2014-09-29) BROKEN!
+--------------------------
 
 - Refactor email composing to use Header objects instead of strings.
   [tschanzt]
