@@ -13,6 +13,9 @@ Changelog
 2.0.8 (2014-09-29)
 ------------------
 
+- Refactor email composing to use Header objects instead of strings.
+  [tschanzt]
+
 - Update French and English translations.
   [jone]
 
