@@ -5,11 +5,16 @@ Changelog
 2.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix bug when building emails with an actor / reply-to header.
+  This sems to be a regression from the refactoring in 2.0.8.
+  [jone]
 
 
-2.0.8 (2014-09-29)
-------------------
+2.0.8 (2014-09-29) BROKEN!
+--------------------------
+
+- Refactor email composing to use Header objects instead of strings.
+  [tschanzt]
 
 - Update French and English translations.
   [jone]

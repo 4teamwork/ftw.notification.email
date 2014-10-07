@@ -25,7 +25,7 @@ class TestFormatEmail(TestCase):
 
     def tearDown(self):
         Mailing(self.portal).tear_down()
-        
+
 
     def test_format_single(self):
         receiver = self.notifier.create_recipients(['john.doe'])
@@ -48,6 +48,15 @@ class TestFormatEmail(TestCase):
         self.notifier.send_notification(to_list=['john.doe'], cc_list=['hans.muster'], object_=self.file, message=u'hallo velo')
         mail = Mailing(self.portal).pop()
         self.assertIn('To: =?utf-8?q?Doe_John?=  <john@doe.com>', mail)
+
+    def test_actor_is_used_for_reply_to_header(self):
+        self.notifier.send_notification(to_list=['john.doe'],
+                                        cc_list=['hans.muster'], object_=
+                                        self.file,
+                                        message=u'hallo velo',
+                                        actor='john.doe')
+        mail = Mailing(self.portal).pop()
+        self.assertIn('Reply-To: =?utf-8?q?Doe_John?=  <john@doe.com>', mail)
 
     def test_correct_multiple_receiver_41(self):
         migration_tool = getToolByName(self, 'portal_migration')

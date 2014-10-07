@@ -1,12 +1,13 @@
+from ftw.builder.testing import BUILDER_LAYER
+from ftw.builder.testing import functional_session_factory
+from ftw.builder.testing import set_builder_session_factory
 from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting, FunctionalTesting
-from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-
 from zope.configuration import xmlconfig
-from ftw.builder.testing import BUILDER_LAYER
 
 
 class NotificationIntegrationLayer(PloneSandboxLayer):
@@ -35,5 +36,6 @@ NOTIFICATION_INTEGRATION_TESTING = IntegrationTesting(
     name="Notification:Integration")
 
 NOTIFICATION_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(NOTIFICATION_INTEGRATION_FIXTURE,),
+    bases=(NOTIFICATION_INTEGRATION_FIXTURE,
+           set_builder_session_factory(functional_session_factory)),
     name="Notification:Functional")
