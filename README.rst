@@ -24,9 +24,9 @@ Usage
 Links
 =====
 
-- Main github project repository: https://github.com/4teamwork/ftw.notification.email
-- Issue tracker: https://github.com/4teamwork/ftw.notification.email/issues
-- Package on pypi: http://pypi.python.org/pypi/ftw.notification.email
+- Github: https://github.com/4teamwork/ftw.notification.email
+- Issues: https://github.com/4teamwork/ftw.notification.email/issues
+- Pypi: http://pypi.python.org/pypi/ftw.notification.email
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.notification.email
 
 
