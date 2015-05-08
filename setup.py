@@ -30,7 +30,7 @@ setup(name='ftw.notification.email',
         ],
 
       keywords='ftw notification email plone',
-      author='4teamwork GmbH',
+      author='4teamwork AG',
       author_email='mailto:info@4teamwork.ch',
       maintainer=maintainer,
       url='https://github.com/4teamwork/ftw.notification.email',
