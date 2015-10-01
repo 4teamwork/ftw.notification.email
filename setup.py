@@ -42,6 +42,7 @@ setup(name='ftw.notification.email',
       zip_safe=False,
 
       install_requires=[
+        'Plone',
         'setuptools',
         'StoneageHTML',
         'BeautifulSoup',  # StoneageHTML requires BeautifulSoup (undeclared)
