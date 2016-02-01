@@ -15,6 +15,6 @@
     please see the contact details in the footnote.
 </p>
 <p>--</p>
-<p><tal:b tal:content="python:view.sender " /> - <tal:b tal:content="python:view.sender" /></p>
+<p><tal:b tal:content="python:view.sender " /></p>
 
 </tal:translate>
