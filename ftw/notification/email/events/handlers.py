@@ -2,6 +2,7 @@ from DateTime import DateTime
 from ftw.journal.events.events import JournalEntryEvent
 from ftw.notification.base import notification_base_factory as _
 from ftw.notification.base.interfaces import INotifier
+from ftw.notification.email.events import NotificationEmailSentEvent
 from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import hooks
@@ -69,6 +70,10 @@ def notification_sent(event):
             comment=comment))
 
     notify(JournalEntryEvent(obj, journal_comment, action))
+    notify(NotificationEmailSentEvent(obj,
+                                      comment=comment,
+                                      to_userids=to_list,
+                                      cc_userids=cc_list))
 
     kwargs = dict(action=action, actor=actor, time=time)
     notifier.send_notification(
