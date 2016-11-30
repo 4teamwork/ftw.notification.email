@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-05-08 13:43+0000\n"
+"POT-Creation-Date: 2016-11-30 09:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9,12 +9,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: ftw.notification.email\n"
 
-#: ./ftw/notification/email/composer.py:115
+#: ./ftw/notification/email/configure.zcml:62
+msgid "A product which sends notifications over email"
+msgstr ""
+
+#: ./ftw/notification/email/composer.py:114
 msgid "HTML E-Mail"
 msgstr ""
 
@@ -30,12 +31,16 @@ msgstr ""
 msgid "email_contification_text"
 msgstr ""
 
+#: ./ftw/notification/email/configure.zcml:62
+msgid "ftw.notification.email"
+msgstr ""
+
 #. Default: "journal_notification_text"
 msgid "journal_notification_text"
 msgstr ""
 
 #. Default: "Send Notification"
-#: ./ftw/notification/email/events/handlers.py:20
+#: ./ftw/notification/email/events/handlers.py:42
 msgid "label_send_notification"
 msgstr ""
 
