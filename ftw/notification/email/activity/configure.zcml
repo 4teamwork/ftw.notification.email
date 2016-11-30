@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ftw.notification.email">
+
+    <adapter
+        factory=".renderer.NotificationRenderer"
+        name="ftw.notification.email:notifications" />
+
+    <subscriber
+        for="* ftw.notification.email.events.NotificationEmailSentEvent"
+        handler=".subscribers.notification_email_sent_activity"
+        />
+
+</configure>

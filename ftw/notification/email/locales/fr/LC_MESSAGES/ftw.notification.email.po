@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-30 09:39+0000\n"
+"POT-Creation-Date: 2016-11-30 09:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
-#: ./ftw/notification/email/configure.zcml:62
+#: ./ftw/notification/email/configure.zcml:64
 msgid "A product which sends notifications over email"
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr "Commentaire"
 msgid "email_contification_text"
 msgstr "vous a envoyé une notification : "
 
-#: ./ftw/notification/email/configure.zcml:62
+#: ./ftw/notification/email/configure.zcml:64
 msgid "ftw.notification.email"
 msgstr ""
 
@@ -43,6 +43,21 @@ msgstr "Message envoyé à: AN:${to_list} CC: ${cc_list} ${comment}"
 #: ./ftw/notification/email/events/handlers.py:42
 msgid "label_send_notification"
 msgstr "Envoyer message"
+
+#. Default: "CC:"
+#: ./ftw/notification/email/activity/templates/notification.pt:13
+msgid "lable_notification_cc"
+msgstr ""
+
+#. Default: "Comment:"
+#: ./ftw/notification/email/activity/templates/notification.pt:18
+msgid "lable_notification_comment"
+msgstr ""
+
+#. Default: "TO:"
+#: ./ftw/notification/email/activity/templates/notification.pt:8
+msgid "lable_notification_to"
+msgstr ""
 
 #. Default: "This mail was generated automatically. For answering to the sender, please see the contact details in the footnote."
 #: ./ftw/notification/email/templates/base.pt:13
