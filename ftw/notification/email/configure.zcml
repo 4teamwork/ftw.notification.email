@@ -9,6 +9,8 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales"/>
 
+  <include package=".activity" zcml:condition="installed ftw.activity" />
+
   <subscriber
       for="ftw.notification.base.interfaces.INotificationEvent"
       handler=".events.handlers.notification_sent"

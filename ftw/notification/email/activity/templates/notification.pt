@@ -1,0 +1,24 @@
+<metal:wrapper use-macro="context/@@activity_macros/macros/event">
+    <metal:BODY metal:fill-slot="body">
+
+        <div class="notification-body-comment"
+             i18n:domain="ftw.notification.email">
+
+            <div class="notification-to" tal:condition="options/to_names">
+                <label i18n:translate="lable_notification_to">TO:</label>
+                <span tal:content="options/to_names" />
+            </div>
+
+            <div class="notification-cc" tal:condition="options/cc_names">
+                <label i18n:translate="lable_notification_cc">CC:</label>
+                <span tal:content="options/cc_names" />
+            </div>
+
+            <div class="notification-comment">
+                <label i18n:translate="lable_notification_comment">Comment:</label>
+                <span tal:content="structure options/comment" />
+            </div>
+
+        </div>
+    </metal:BODY>
+</metal:wrapper>

@@ -16,14 +16,13 @@ class NotificationIntegrationLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
-        # Load testing zcml (optional)
-        import ftw.notification.base
-        xmlconfig.file('configure.zcml', ftw.notification.base,
-                       context=configurationContext)
-
-        import ftw.notification.email
-        xmlconfig.file('configure.zcml', ftw.notification.email,
-                       context=configurationContext)
+        xmlconfig.string(
+            '<configure xmlns="http://namespaces.zope.org/zope">'
+            '  <include package="z3c.autoinclude" file="meta.zcml" />'
+            '  <includePlugins package="plone" />'
+            '  <includePluginsOverrides package="plone" />'
+            '</configure>',
+            context=configurationContext)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.notification.email:default')

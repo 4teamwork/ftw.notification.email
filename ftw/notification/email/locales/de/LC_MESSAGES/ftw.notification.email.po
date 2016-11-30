@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2016-11-30 09:39+0000\n"
+"POT-Creation-Date: 2016-11-30 09:41+0000\n"
 "PO-Revision-Date: 2009-02-25 14:39+0100\n"
 "Last-Translator: Victor Baumann <v.baumann@4teamwork.ch>\n"
 "Language-Team: 4teamwork <info@4teamwork.ch>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "X-Poedit-Language: German\n"
 
-#: ./ftw/notification/email/configure.zcml:62
+#: ./ftw/notification/email/configure.zcml:64
 msgid "A product which sends notifications over email"
 msgstr ""
 
@@ -32,7 +32,7 @@ msgstr "Kommentar"
 msgid "email_contification_text"
 msgstr "hat einen Hinweis an Sie versendet:"
 
-#: ./ftw/notification/email/configure.zcml:62
+#: ./ftw/notification/email/configure.zcml:64
 msgid "ftw.notification.email"
 msgstr ""
 
@@ -45,8 +45,22 @@ msgstr "Benachrichtigung gesendet an: AN:${to_list} CC: ${cc_list} ${comment}"
 msgid "label_send_notification"
 msgstr "Benachrichtigung senden"
 
+#. Default: "CC:"
+#: ./ftw/notification/email/activity/templates/notification.pt:13
+msgid "lable_notification_cc"
+msgstr "CC:"
+
+#. Default: "Comment:"
+#: ./ftw/notification/email/activity/templates/notification.pt:18
+msgid "lable_notification_comment"
+msgstr "Kommentar:"
+
+#. Default: "TO:"
+#: ./ftw/notification/email/activity/templates/notification.pt:8
+msgid "lable_notification_to"
+msgstr "AN:"
+
 #. Default: "This mail was generated automatically. For answering to the sender, please see the contact details in the footnote."
 #: ./ftw/notification/email/templates/base.pt:13
 msgid "msg_automated_generated"
 msgstr "Dieses Mail wurde automatisch generiert. Um eine Antwort an die AbsenderIn zu verfassen, benutzen Sie bitte die Angaben in der Fusszeile."
-

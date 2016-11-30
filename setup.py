@@ -5,11 +5,18 @@ version = '2.0.11.dev0'
 maintainer = 'Jonas Baumann'
 
 tests_require = [
+    'ftw.builder',
+    'ftw.notification.email [activity]',
+    'ftw.testbrowser',
+    'ftw.testing',
     'plone.app.testing',
     'plone.testing',
-    'ftw.builder',
-    'ftw.testing'
 ]
+
+extras_require = {
+    'tests': tests_require,
+    'activity': ['ftw.activity >= 2'],
+}
 
 setup(name='ftw.notification.email',
       version=version,
@@ -49,7 +56,7 @@ setup(name='ftw.notification.email',
         ],
 
       tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
+      extras_require=extras_require,
       entry_points='''
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
