@@ -2,8 +2,10 @@
 # E0211: Method has no argument
 # E0213: Method should have "self" as first argument
 
-from zope.interface import Interface
 from ftw.notification.base.interfaces import INotifier
+from zope.component.interfaces import IObjectEvent
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class IFormatItem(Interface):
@@ -41,3 +43,12 @@ class IAttachmentCreator(Interface):
 class IEMailRepresentation(Interface):
     """Interface for
     """
+
+
+class INotificationEmailSentEvent(IObjectEvent):
+    """Event fired when a notification email is sent.
+    """
+
+    comment = Attribute('The comment entered by the user.')
+    to_userids = Attribute('User ids of "to" recipients.')
+    cc_userids = Attribute('User ids of "cc" recipients.')
