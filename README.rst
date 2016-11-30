@@ -4,7 +4,7 @@ ftw.notification.email
 This package is an extension for ``ftw.notification.base`` providing
 email notification after editing a content.
 
-See ``ftw.notification.base``_ for further details.
+See `ftw.notification.base`_ for further details.
 
 
 Usage
