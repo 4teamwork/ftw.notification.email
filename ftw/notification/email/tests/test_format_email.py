@@ -37,7 +37,7 @@ class TestFormatEmail(TestCase):
 
     def test_send_notification(self):
         self.notifier.send_notification(to_list=['john.doe'], cc_list=['hans.muster'], object_=self.file, message=u'hallo velo')
-        mail = Mailing(self.portal).pop()
+        Mailing(self.portal).pop()
 
     def test_correct_subject(self):
         self.notifier.send_notification(to_list=['john.doe'], cc_list=['hans.muster'], object_=self.file, message=u'hallo velo')

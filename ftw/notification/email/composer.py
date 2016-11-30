@@ -1,21 +1,20 @@
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from email import Encoders
 from email import Utils
-from email.Header import Header
 from email.MIMEBase import MIMEBase
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from email.Utils import formatdate
 from ftw.notification.email.interfaces import IEMailComposer
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import component
 from zope import interface
-import Products.CMFPlone.interfaces
-import StringIO
 import formatter
 import htmllib
 import persistent
+import Products.CMFPlone.interfaces
 import stoneagehtml
 import string
+import StringIO
 import zope.sendmail.mailer
 
 
@@ -84,7 +83,7 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
     alternatives.attach(MIMEText(text, 'plain', _charset=encoding))
     alternatives.attach(MIMEText(html, 'html', _charset=encoding))
 
-    #add the attachments
+    # add the attachments
     for f, name, mimetype in attachments:
         if mimetype is None:
             mimetype = ('application', 'octet-stream')
@@ -157,8 +156,8 @@ class HTMLComposer(persistent.Persistent):
         variables = {}
         site = component.getUtility(
             Products.CMFPlone.interfaces.IPloneSiteRoot)
-        #site = utils.fix_request(site, 0)
-        #lambda t: transform.URL(site).__call__(t, subscription)
+        # site = utils.fix_request(site, 0)
+        # lambda t: transform.URL(site).__call__(t, subscription)
         fix_urls = lambda t: t
         variables['site_url'] = site.absolute_url()
         variables['site_title'] = site.Title()
@@ -182,7 +181,7 @@ class HTMLComposer(persistent.Persistent):
 
         return variables
 
-    #@volatile.cache(_render_cachekey)
+    # @volatile.cache(_render_cachekey)
     def _html(self, variables, **kwargs):
         html = self.template(**variables)
         return stoneagehtml.compactify(html, **kwargs).decode('utf-8')

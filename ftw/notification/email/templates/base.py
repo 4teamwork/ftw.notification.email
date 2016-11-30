@@ -10,7 +10,7 @@ class BaseEmailRepresentation(object):
     """
 
     template = ViewPageTemplateFile('base.pt')
-    #XXX: replace with CSSVIew
+    # XXX: replace with CSSVIew
     stylesheet = """
     body {
         font-family: Arial !important;

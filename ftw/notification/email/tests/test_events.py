@@ -1,20 +1,17 @@
-from unittest2 import TestCase
-from zope.component import getUtility
-from ftw.notification.email.testing import NOTIFICATION_INTEGRATION_TESTING
-from ftw.notification.base.interfaces import INotifier
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.testing.mailing import Mailing
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
 from ftw.notification.base.events.events import NotificationEvent
-from zope.event import notify
-from zope.annotation.interfaces import IAnnotations
+from ftw.notification.email.testing import NOTIFICATION_INTEGRATION_TESTING
+from ftw.testing.mailing import Mailing
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_NAME
+from unittest2 import TestCase
 from zope.component import eventtesting
+from zope.event import notify
 
 
 class TestEvents(TestCase):
-    
+
     layer = NOTIFICATION_INTEGRATION_TESTING
 
     def setUp(self):
