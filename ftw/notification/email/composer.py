@@ -78,8 +78,11 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
 
     msg.preamble = 'This is a multi-part message in MIME format.'
 
+    related = MIMEMultipart('related')
+    msg.attach(related)
+
     alternatives = MIMEMultipart('alternative')
-    msg.attach(alternatives)
+    related.attach(alternatives)
     alternatives.attach(MIMEText(text, 'plain', _charset=encoding))
     alternatives.attach(MIMEText(html, 'html', _charset=encoding))
 
