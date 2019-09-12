@@ -223,7 +223,7 @@ class HTMLComposer(persistent.Persistent):
         return html
 
     def render(self, override_vars=None, template_vars=_marker,
-               attachments=_marker, **kwargs):
+               attachments=_marker, images=None, **kwargs):
 
         if template_vars is _marker:
             template_vars = {}
@@ -246,6 +246,7 @@ class HTMLComposer(persistent.Persistent):
             to_addr=variables['to_addr'],
             headers=variables.get('more_headers'),
             encoding=self.encoding,
-            attachments=attachments)
+            attachments=attachments,
+            images=images)
 
         return message
