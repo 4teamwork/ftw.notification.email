@@ -1,6 +1,7 @@
 from email import Encoders
 from email import Utils
 from email.MIMEBase import MIMEBase
+from email.MIMEImage import MIMEImage
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from email.Utils import formatdate
@@ -29,10 +30,18 @@ _marker = object()
 
 
 def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
-                     headers=None, encoding='UTF-8', attachments=_marker):
+                     headers=None, encoding='UTF-8', attachments=_marker,
+                     images=None):
     """Create a mime-message that will render HTML in popular
     MUAs, text in better ones.
+
+    :param images: List[Tuple[file, contentid, subtype], ..] where file can be
+        bytes or a filelike object, contentid the id which will be referencable
+        in the HTML with <img src="cid:{contentid}" /> without the curly
+        brackets and subtype the latter part of the mimetype eg. "png" from
+        "image/png"
     """
+    images = images or []
 
     if attachments is _marker:
         attachments = []
@@ -78,10 +87,23 @@ def create_html_mail(subject, html, text=None, from_addr=None, to_addr=None,
 
     msg.preamble = 'This is a multi-part message in MIME format.'
 
+    related = MIMEMultipart('related')
+    msg.attach(related)
+
     alternatives = MIMEMultipart('alternative')
-    msg.attach(alternatives)
+    related.attach(alternatives)
     alternatives.attach(MIMEText(text, 'plain', _charset=encoding))
     alternatives.attach(MIMEText(html, 'html', _charset=encoding))
+
+    for fio, contentid, subtype in images:
+        if hasattr('read', fio):
+            data = fio.read()
+        else:
+            data = fio
+
+        image = MIMEImage(data, subtype)
+        image.add_header('Content-ID', '<%s>' % contentid)
+        related.attach(image)
 
     # add the attachments
     for f, name, mimetype in attachments:
@@ -201,7 +223,7 @@ class HTMLComposer(persistent.Persistent):
         return html
 
     def render(self, override_vars=None, template_vars=_marker,
-               attachments=_marker, **kwargs):
+               attachments=_marker, images=None, **kwargs):
 
         if template_vars is _marker:
             template_vars = {}
@@ -224,6 +246,7 @@ class HTMLComposer(persistent.Persistent):
             to_addr=variables['to_addr'],
             headers=variables.get('more_headers'),
             encoding=self.encoding,
-            attachments=attachments)
+            attachments=attachments,
+            images=images)
 
         return message

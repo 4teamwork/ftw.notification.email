@@ -5,7 +5,7 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add content ID support [Nachtalb]
 
 
 2.1.0 (2016-11-30)
